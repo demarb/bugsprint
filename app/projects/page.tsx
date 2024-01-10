@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const ProjectsPage = () => {
 
-  let hasProjects = false
+  let hasProjects = true
 
   // console.log(projectsFakeData)
 
@@ -56,10 +56,14 @@ const ProjectsPage = () => {
 
             // </div>
           :
-          <div className='border-2 rounded-md border-stone-400 p-8 w-full md:w-2/5 hover:border-primary-green hover:cursor-pointer'>
-            <h1 className='text-3xl'>Create a New Project</h1>
-            <h2 className='text-sm text-stone-500'>Start tracking bugs for your next project here...</h2>
-          </div>
+          
+          <Link href="/projects/new" className="flex">
+            <div className='border-2 rounded-md border-stone-400 p-8 mt-8 md:mt-16 w-full hover:border-primary-green hover:cursor-pointer'>
+              <h1 className='text-3xl'>Create a New Project</h1>
+              <h2 className='text-sm text-stone-500'>Start tracking bugs for your next project here...</h2>
+            </div>
+          </Link>
+          
           
         }
       </div>
