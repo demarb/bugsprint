@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 
-const page = () => {
+const NewProjectPage = () => {
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -95,4 +95,4 @@ const page = () => {
   )
 }
 
-export default page
+export default NewProjectPage
