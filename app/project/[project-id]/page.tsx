@@ -7,7 +7,112 @@ const page = () => {
       <div className=''>
         {/* <h1 className='text-6xl font-extrabold text-primary-green'>Project Name</h1> */}
         <div>
+        <h2>Bugs</h2>
           <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <h2>Bugs</h2>
+          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+          
           <div>
 
           </div>
