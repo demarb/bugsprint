@@ -1,6 +1,7 @@
 import Image from 'next/image'
+import Link from "next/link"
 
-const ProjectPage = () => {
+const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
   return (
     <section className='mx-auto py-2'>
 
@@ -23,11 +24,14 @@ const ProjectPage = () => {
               />    
             </button>
 
-            <button type="button"
-            //   key={}
-            //   onClick={}
-              className="green_btn mx-2">Submit New Bug
-            </button>
+            <Link href={`/project/${params.project_id}/bug/new`}>
+              <button type="button"
+              //   key={}
+              //   onClick={}
+                className="green_btn mx-2">Submit New Bug
+              </button>
+            </Link>
+            
           </div>
         </div>       
       </div>
