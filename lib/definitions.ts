@@ -7,3 +7,35 @@ export type ProjectType = {
     title: string;
     owner: string;
   };
+
+// export type BugType = {
+//   id: string,
+//   title: string,
+//   status: string,
+//   priority: string,
+//   severity: string,
+//   creator: string,
+//   created_at: string,
+//   assignees: [
+//     {
+//       name: string,
+//     },
+//     {
+//       name: string,
+//     },
+//   ],
+//   customer_reported: boolean,
+// };
+
+export type BugType = {
+  id: string,
+  title: string,
+  status: string,
+  priority: string,
+  severity: string,
+  creator: string,
+  created_at: string,
+  assignees: string,
+  customer_reported: boolean,
+};
+

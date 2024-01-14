@@ -1,7 +1,9 @@
+import BugsTable from '@/components/BugsTable'
 import Image from 'next/image'
 import Link from "next/link"
 
 const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
+  
   return (
     <section className='mx-auto py-2'>
 
@@ -33,16 +35,13 @@ const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
             </Link>
             
           </div>
-        </div>       
+        </div>
+
+        <div className='py-2 md:py-4'>
+          <BugsTable project_id={params.project_id} /> 
+        </div>
+              
       </div>
-      
-
-      
-        
-
-        
-
-     
 
     </section>
   )
