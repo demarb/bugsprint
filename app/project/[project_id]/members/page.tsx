@@ -6,7 +6,7 @@ const ProjectMembersPage = () => {
 
       <div className=''>
         <div className='flex justify-between'>
-          <h2 className='text-3xl text-primary-green'>Members</h2>
+          <h2 className='text-4xl text-primary-green'>Members</h2>
           <div className='flex'>
             {/* <button type="button"
             //   key={}

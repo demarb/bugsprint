@@ -11,20 +11,6 @@ const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
         <div className='flex justify-between'>
           <h2 className='text-3xl text-primary-green'>Bugs</h2>
           <div className='flex'>
-            <button type="button"
-            //   key={}
-            //   onClick={}
-              className="rounded-md hover:border hover:border-primary-green "
-            >
-              <Image
-                className=""
-                src="/assets/icons/filter-60.png"
-                alt="Filter icon"
-                width={35}
-                height={35}
-                // priority
-              />    
-            </button>
 
             <Link href={`/project/${params.project_id}/bug/new`}>
               <button type="button"
