@@ -16,15 +16,15 @@ const Sidebar = ({project_id} : {project_id: string}) => {
 
             <Link href={`/project/${project_id}/members`} className="w-1/4 md:w-max p-2 border rounded border-stone-400 hover:border-primary-green md:border-primary-green md:hover:border-white hover:cursor-pointer">
                 <div className=''>
-                    <h1 className='text-2xl'>Members</h1>
-                    <p className='text-xs'>Invite members</p>
+                    <h1 className='text-xl md:text-2xl'>Members</h1>
+                    <p className='#hidden #md:block text-sm'>Invite members</p>
                 </div>
             </Link>
 
             <Link href={`/project/${project_id}/settings`} className="w-1/4 md:w-max p-2 border rounded border-stone-400 hover:border-primary-green md:border-primary-green md:hover:border-white hover:cursor-pointer">
                 <div className=''>
-                    <h1 className='text-2xl'>Setting</h1>
-                    <p className='text-xs'>Setup your project</p>
+                    <h1 className='text-xl md:text-2xl'>Setting</h1>
+                    <p className='text-sm'>Setup your project</p>
                 </div>
             </Link>
             
@@ -32,8 +32,8 @@ const Sidebar = ({project_id} : {project_id: string}) => {
 
             <Link href="/projects" className="w-1/4 md:w-max p-2 border rounded border-stone-400 hover:border-primary-green md:border-primary-green md:hover:border-white hover:cursor-pointer">
                 <div className=''>
-                    <h1 className='text-2xl'>Other Projects</h1>
-                    <p className='text-xs'>See your other projects</p>
+                    <h1 className='text-xl md:text-2xl'>Other Projects</h1>
+                    <p className='text-sm'>View other projects</p>
                 </div>
             </Link>
             

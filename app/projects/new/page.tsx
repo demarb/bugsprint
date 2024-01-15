@@ -18,15 +18,17 @@ const NewProjectPage = () => {
     <section className='w-4/5 mx-auto py-12'>
 
       <div className='flex justify-between items-center'>
-        <h1 className='text-6xl font-extrabold text-primary-green'>New Project</h1>       
-      </div>
+        <h1 className='text-6xl font-extrabold text-primary-green'>New Project</h1>
+     </div>
       
+      <h2 className="py-2 md:py-4 text-lg text-primary-green font-bold">Note: All projects are private by default. You can modify this later.</h2>
+
 
       {/* <div className='flex flex-wrap justify-center gap-2 pt-8'>
         
       </div> */}
 
-      <form className="flex flex-col pt-8">
+      <form className="flex flex-col pt-2 md:pt-4">
         <label className="text-lg">Title
           <br className=""/>
           <input 
@@ -88,6 +90,7 @@ const NewProjectPage = () => {
         </Link>
 
       </form>
+
 
       
       
