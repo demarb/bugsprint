@@ -1,8 +1,11 @@
+"use client"
 
-
-import React from 'react'
+import { useState } from 'react'
 
 const MemberCard = ({name, email, permission}: {name: string, email: string, permission: string}) => {
+
+    const [userPermission, setUserPermission] = useState(permission)
+
   return (
     <div className='flex flex-col border rounded-md p-2 my-2 w-full lg:w-4/5'>
 
@@ -18,13 +21,13 @@ const MemberCard = ({name, email, permission}: {name: string, email: string, per
         {
             permission==="owner" ? 
 
-            <select name="permission-select" id="permission-select" className='form_input' disabled >
+            <select name="permission-select" id="permission-select" className='form_input' disabled value={userPermission} onChange={(e)=>{setUserPermission(e.target.value)}}>
                 <option value="owner">Owner</option>
             </select>
 
             :
 
-            <select name="" id="" className='form_input' >
+            <select name="user-permission" id="user-permission" className='form_input' value={userPermission} onChange={(e)=>{setUserPermission(e.target.value)}}>
                 <option value="moderator">Moderator</option>
                 <option value="readwrite">Read/Write</option>
                 <option value="readonly">Read Only</option>
