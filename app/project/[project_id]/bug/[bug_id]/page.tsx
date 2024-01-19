@@ -1,14 +1,26 @@
+import BugForm from '@/components/BugForm'
 import React from 'react'
 
 const BugPage = () => {
+
+  
+
   return (
-    <div>
+    <section className='mx-auto py-2'>
+
+      <div className=''>
+        <div className='flex flex-col justify-between'>
+          <h2 className='text-4xl text-primary-green'>Bug: {"######"}</h2>
+
+            <div className='py-2 md:py-4'>
+                
+              <BugForm />
+            
+            </div>
+        </div>       
+      </div>
       
-      <h1>BugPage</h1>
-
-      <div>Maybe consider moving to /bug/bug_id OR /bug?bug_id=DJKFNJKN332221</div>
-    </div>
-
+    </section>
     
   )
 }
