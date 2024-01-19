@@ -10,8 +10,8 @@ import {
 
 import Link from 'next/link'
 
-import { type BugType } from '@/lib/definitions'
-import { bugsFakeData } from '@/lib/placeholder-data';
+import { type BugType } from '@/utils/definitions'
+import { bugsFakeData } from '@/utils/placeholder-data';
 
 
 

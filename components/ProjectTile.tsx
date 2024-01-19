@@ -1,4 +1,4 @@
-import { type ProjectType } from '../lib/definitions';
+import { type ProjectType } from '../utils/definitions';
 import Link from 'next/link'
 
 
