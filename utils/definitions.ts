@@ -1,6 +1,6 @@
 // Typescript types that will be returned from the database
 // Recommendation: Prisma, which automatically generates types based on your database schema.
-
+import { Session } from 'next-auth'
 
 export type ProjectType = {
     id: string;
@@ -39,3 +39,7 @@ export type BugType = {
   customer_reported: boolean,
 };
 
+export interface ProviderProps {
+  children: React.ReactNode;
+  session?: Session;
+}

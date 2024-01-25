@@ -1,6 +1,20 @@
 import Image from 'next/image'
+// import {getData} from '@/utils/database'
 
 export default function Home() {
+
+  // const fetchData = async () => {
+  //   try {
+  //     const data = await getData();
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  // fetchData()
+  
+
   return (
     <section className="w-3/4 mx-auto flex flex-col items-center">
         <h1 className='head_text text-center py-16'>Track Bugs For Your Next Software Project</h1>

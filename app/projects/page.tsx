@@ -1,5 +1,5 @@
 import ProjectTile from '@/components/ProjectTile'
-import {projectsFakeData} from '@/lib/placeholder-data'
+import {projectsFakeData} from '@/utils/placeholder-data'
 import Link from 'next/link'
 
 const ProjectsPage = () => {
