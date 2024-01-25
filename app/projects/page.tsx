@@ -16,7 +16,7 @@ const ProjectsPage = () => {
 
         {
           hasProjects ? 
-            <Link href="/projects/new" className="flex">
+            <Link href="/project/new" className="flex">
             <button 
               type="button"
               // key={}

@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import { Pool } from 'pg';
 import type { PoolClient } from 'pg';
+import { ProjectTypePRIMARY } from './definitions';
 
 
 let isConnected = false; //To track our db connection
@@ -138,16 +139,40 @@ export const getUserQuery = async (email: string) => {
 
 }
 
+export const createProjectQuery = async (project : ProjectTypePRIMARY) => {
+    const client = await connectToDB()
 
-// export const getData = async () => {
-//     const client = await pool.connect();
+    const project_id = nanoid()
 
-//     try {
-//         const response = await client.query('SELECT version()');
-//         console.log(response.rows[0]);
-//         return response.rows[0];
-//     } finally {
-//         client.release();
-//     }
-// }
+    const {owner_id, title, description, industry, additional_notes} = project
+    const project_client = project.client
 
+
+    const query = `INSERT INTO projects (project_id, owner_id, title, description, industry, client, additional_notes) VALUES 
+                    ('${project_id}', '${owner_id}', '${title}', '${description}', '${industry}', '${project_client}', '${additional_notes}')`
+    console.log(`QUERY BEING EXECUTED: ${query}`)        
+
+    try {
+        
+        const response = await client.query(query)
+
+        console.log(`QUERY RESPONSE: `)
+        console.log(response)
+        console.log(`QUERY RESPONSE ROWS: `)
+        console.log(response.rows)
+        console.log(`QUERY ROW COUNT: `)
+        console.log(response.rowCount)
+
+        if(response.rowCount===1){
+            return true
+        }
+        return false
+
+    } catch (error) {
+        console.log("Error in createProjectQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}

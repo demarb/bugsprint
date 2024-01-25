@@ -37,7 +37,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                       type="text" name="project-title" id="project-title" 
                       value={title} onChange={(e)=>setTitle(e.target.value)} 
                       className="form_input"
-                      required
+                      required maxLength={100}
                     />
                   </label>
 
@@ -58,7 +58,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                       type="text" name="project-industry" id="project-industry" 
                       value={industry} onChange={(e)=>setIndustry(e.target.value)} 
                       className="form_input"
-                      required
+                      required maxLength={100}
                     />
                   </label>
 
@@ -67,7 +67,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                     <input 
                       type="text" name="project-client" id="project-client" 
                       value={client} onChange={(e)=>setClient(e.target.value)} 
-                      className="form_input"
+                      className="form_input" maxLength={100}
                     />
                   </label>
 
@@ -215,7 +215,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                 <p className="text-md text-red-700 py-2">Type Project ID to confirm delete</p>
 
                 <input 
-                  type="text" name="project-client" id="project-client" 
+                  type="text" name="project-name-confirmed" id="project-name-confirmed" 
                   value={confirmedProjectName} onChange={(e)=>setConfirmedProjectName(e.target.value)} 
                   className="form_input"
                 />
