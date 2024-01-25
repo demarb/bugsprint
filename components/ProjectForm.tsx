@@ -73,12 +73,21 @@ const ProjectForm = ({type, submitting, project, setProject, handleSubmit} : Pro
             </label>
 
             {/* <Link href="/projects" className="ml-auto"> */}
-            <button type="button"
-                disabled={submitting}
-                //   key={}
-                  onClick={handleSubmit}
-                className="green_btn mt-4 ">{type}
-            </button>
+            <div className="w-full lg:w-4/5 flex">
+                <button type="button"
+                    disabled={submitting}
+                    //   key={}
+                    onClick={handleSubmit}
+                    className="green_btn ml-auto mt-4"
+                >
+                    {
+                        type === "Create" ? 
+                            (submitting ? "Creating Project" : "Create") 
+                            : (submitting ? "Updating Project" : "Update")
+                    }
+                </button>
+            </div>
+            
             {/* </Link> */}
 
         </form>

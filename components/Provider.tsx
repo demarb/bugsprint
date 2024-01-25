@@ -5,8 +5,8 @@ import { SessionProvider } from 'next-auth/react'
 import { type ProviderProps } from '@/utils/definitions'
 
 const Provider = ({children, session} : ProviderProps) => {
-  console.log("SESSION OBJECT IN PROVIDER:")
-  console.log(session)
+  // console.log("SESSION OBJECT IN PROVIDER:")
+  // console.log(session)
 
   return (
     <SessionProvider session={session}>
