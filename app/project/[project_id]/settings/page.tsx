@@ -1,19 +1,87 @@
 "use client"
 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Link from "next/link"
+import ProjectConfiguration from '@/components/ProjectConfiguration'
+import { ProjectTypePRIMARY } from "@/utils/definitions"
+import ProjectForm from '@/components/ProjectForm'
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) => {
 
-  const [confirmedProjectName, setConfirmedProjectName] = useState("")
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [industry, setIndustry] = useState("")
-  const [client, setClient] = useState("")
-  const [notes, setNotes] = useState("")
+  const router = useRouter()
+  const {data: session } = useSession()
 
-  const maxDescriptionLength = 250
-  const maxNotesLength = 500
+  const [project, setProject] = useState<ProjectTypePRIMARY>({
+    title: "",
+    description : "",
+    industry : "",
+    client : "",
+    additional_notes : "",
+  })
+  const [submitting, setSubmitting] = useState(false)
+
+  const [confirmedProjectName, setConfirmedProjectName] = useState("")
+
+  useEffect(() => {
+    
+    const fetchProject = async () => {
+      const project_id = params.project_id
+      const response = await fetch(`/api/project/${project_id}`)
+      const data = await response.json()
+      setProject(data)
+    }
+  
+      fetchProject()
+
+  }, [])
+
+  const updateProject = async (e : React.SyntheticEvent) => {
+    console.log("Attempting to updateProject")
+    e.preventDefault();
+    setSubmitting(true)
+
+    try {
+
+      const reqBody = {
+          // id is a field we added to session
+          //@ts-ignore
+          owner_id: session?.user?.id,
+          title: project.title,
+          description : project.description,
+          industry : project.industry,
+          client : project.client,
+          additional_notes  : project.additional_notes
+      }
+
+      console.log("This is the request body we are assembling")
+      console.log(reqBody)
+      
+        const response = await fetch('/api/project/new', {
+            method: 'POST',
+            body: JSON.stringify(reqBody)
+        })
+
+        if(response.ok){
+            router.push('/projects');
+        }
+
+    } catch (error) {
+        console.log(error)
+    } finally{
+        setSubmitting(false)
+    }
+}
+
+  // const [title, setTitle] = useState("")
+  // const [description, setDescription] = useState("")
+  // const [industry, setIndustry] = useState("")
+  // const [client, setClient] = useState("")
+  // const [notes, setNotes] = useState("")
+
+  // const maxDescriptionLength = 250
+  // const maxNotesLength = 500
 
   return (
     <section className='mx-auto py-2'>
@@ -28,9 +96,12 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
 
               <div>
                 <h3 className='text-lg font-bold text-primary-green'>Project ID: 
-                  <span className='text-black'>{` ExampleProjectID`}</span>
+                  <span className='text-black'>{` ${project.project_id}`}</span>
                 </h3>
-                <form className="flex flex-col pt-8">
+
+                <ProjectForm type={"Update"} submitting={submitting} project={project} setProject={setProject} handleSubmit={updateProject}/>
+
+                {/* <form className="flex flex-col pt-8">
                   <label className="text-lg">Title
                     <br className=""/>
                     <input 
@@ -84,7 +155,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                   </label>
 
 
-                </form>
+                </form> */}
 
                 <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
                   Save
@@ -95,114 +166,8 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
 
             <hr />
 
-            <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Bug Tracking</h2>
+            <ProjectConfiguration project_id={params.project_id}/>
 
-              <div className='flex flex-col'>
-
-                
-
-                <div className='flex flex-col'>
-                  <h3 className='text-lg text-primary-green'>Allow Guests (eg. App users) To Submit Bugs?</h3>
-                  <label>
-                    <input type="radio" name="visibilityRadio" value="csv" className='mr-1'/>
-                    Yes
-                  </label>
-                  <label >
-                    <input type="radio" name="visibilityRadio" value="json" className='mr-1'/>
-                    No
-                  </label>
-                  <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
-                    Save
-                  </button>
-                </div>
-
-                <div className='flex flex-col'>
-                  <h3 className='text-lg text-primary-green'>Set a Default Assignee for New Bugs</h3>
-
-                  <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
-                    Save
-                  </button>
-                  
-                </div>
-                
-              </div>
-            </div>
-
-            <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Access Control Settings</h2>
-
-              <div className='flex flex-col'>
-
-                
-
-                <div className='flex flex-col'>
-                  <h3 className='text-lg text-primary-green'>Project Visibility</h3>
-                  <label>
-                    <input type="radio" name="visibilityRadio" value="csv" className='mr-1'/>
-                    Public
-                  </label>
-                  <label >
-                    <input type="radio" name="visibilityRadio" value="json" className='mr-1'/>
-                    Private
-                  </label>
-                  <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
-                    Save
-                  </button>
-                </div>
-
-                <div className='flex flex-col'>
-                  <h3 className='text-lg text-primary-green'>Access Permissions</h3>
-
-                  <Link href={`/project/${params.project_id}/members`} className="my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max">
-                    <button className=''>
-                      Members
-                    </button>
-                  </Link>
-                </div>
-                
-              </div>
-            </div>
-
-            <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Notification Preferences</h2>
-
-              <div>
-                
-              </div>
-            </div>
-
-            <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Project Log</h2>
-
-              <div>
-                <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
-                  View Logs
-                </button>
-              </div>
-            </div>
-
-            
-
-            <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Export Project Data</h2>
-
-              <div className='flex flex-col'>
-
-                <label>
-                  <input type="radio" name="dataExportRadio" value="csv" className='mr-1'/>
-                  CSV
-                </label>
-                <label >
-                  <input type="radio" name="dataExportRadio" value="json" className='mr-1'/>
-                  JSON
-                </label>
-
-                <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
-                  Download Data
-                </button>
-              </div>
-            </div>
           </div>
 
           <hr />
@@ -212,7 +177,11 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
 
               <div className='flex flex-col justify-around'>
 
-                <p className="text-md text-red-700 py-2">Type Project ID to confirm delete</p>
+                <p className="text-md text-red-700 py-2">
+                  Your Project Cannot Be Recovered After Deletion. All project information, settings, bugs and members and their respective permission will be removed immediately.
+                </p>
+                <p className="text-md text-red-700">Type Project ID to confirm delete:</p>
+                <p className="text-md text-red-700 pb-2 font-bold">{project.project_id}</p>
 
                 <input 
                   type="text" name="project-name-confirmed" id="project-name-confirmed" 

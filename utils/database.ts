@@ -166,3 +166,27 @@ export const getUserProjectsQuery = async (user_id: string) => {
     }
 
 }
+
+export const getProjectQuery = async (project_id: string) => {
+    const client = await connectToDB()
+
+    const query = `SELECT * FROM projects WHERE project_id='${project_id}' `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            return response.rows[0]
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getProjectQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
