@@ -1,4 +1,3 @@
-// import Prompt from "@models/prompt";
 import { createProjectQuery } from "@/utils/database";
 import { NextRequest, NextResponse } from "next/server";
 

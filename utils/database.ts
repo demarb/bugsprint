@@ -3,37 +3,15 @@ import { Pool } from 'pg';
 import type { PoolClient } from 'pg';
 import { ProjectTypePRIMARY } from './definitions';
 
-
-let isConnected = false; //To track our db connection
-
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: true
 });
 
 export const connectToDB = async () => {
-    // if (isConnected) {
-    //     console.log("Database already connected.")
-    //     return;
-    // }
-
-
     const client = await pool.connect();
-    // isConnected = true
     console.log("Database Connection Established.")
     return client
-
-    // try {
-
-    //     // const client = await pool.connect();
-    //     // isConnected = true
-    //     console.log("Database Connection Established.")
-
-    // } catch (error) {
-    //     console.log(error)
-    // } finally {
-    //     client.release();
-    // }
 }
 
 export const closeDBConnnection = (client: PoolClient) => {
@@ -48,7 +26,6 @@ export const userExistsQuery = async (email: string) => {
     const client = await connectToDB()
     
     const query = `SELECT * FROM users WHERE email='${email}' `
-    // console.log(`QUERY BEING EXECUTED: ${query}`)
 
     try {
 
@@ -81,18 +58,10 @@ export const createUserQuery = async (email: string, username: string, image: st
     const user_id = nanoid()
 
     const query = `INSERT INTO users (user_id, email, username, image) VALUES ('${user_id}', '${email}', '${username}', '${image}')`
-    // console.log(`QUERY BEING EXECUTED: ${query}`)
 
     try {
         
         const response = await client.query(query)
-
-        // console.log(`QUERY RESPONSE: `)
-        // console.log(response)
-        // console.log(`QUERY RESPONSE ROWS: `)
-        // console.log(response.rows)
-        // console.log(`QUERY ROW COUNT: `)
-        // console.log(response.rowCount)
 
         if(response.rowCount===1){
             return true
@@ -118,14 +87,9 @@ export const getUserQuery = async (email: string) => {
         
         const response = await client.query(query)
 
-        // console.log(`QUERY RESPONSE: `)
-        // console.log(response)
-        // console.log(`QUERY RESPONSE ROWS: `)
-        // console.log(response.rows)
-        // console.log(`QUERY ROW COUNT: `)
-        // console.log(response.rowCount)
+        
 
-        if(response.rowCount===1){
+        if(response.rows.length>0){
             return response.rows[0]
         }
         
@@ -156,12 +120,12 @@ export const createProjectQuery = async (project : ProjectTypePRIMARY) => {
         
         const response = await client.query(query)
 
-        console.log(`QUERY RESPONSE: `)
-        console.log(response)
-        console.log(`QUERY RESPONSE ROWS: `)
-        console.log(response.rows)
-        console.log(`QUERY ROW COUNT: `)
-        console.log(response.rowCount)
+        // console.log(`QUERY RESPONSE: `)
+        // console.log(response)
+        // console.log(`QUERY RESPONSE ROWS: `)
+        // console.log(response.rows)
+        // console.log(`QUERY ROW COUNT: `)
+        // console.log(response.rowCount)
 
         if(response.rowCount===1){
             return true
@@ -170,6 +134,32 @@ export const createProjectQuery = async (project : ProjectTypePRIMARY) => {
 
     } catch (error) {
         console.log("Error in createProjectQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+export const getUserProjectsQuery = async (user_id: string) => {
+    const client = await connectToDB()
+
+    
+
+    const query = `SELECT * FROM projects WHERE owner_id='${user_id}' `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            return response.rows
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getUserProjectsQuery:")
         console.log(error)
     } finally{
         closeDBConnnection(client)

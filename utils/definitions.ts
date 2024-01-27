@@ -27,6 +27,15 @@ export type ProjectFormProps = {
     handleSubmit: React.MouseEventHandler<HTMLButtonElement>;
 }
 
+// export type ProjectTileProps = {
+//   project: ProjectType;
+// }
+
+
+export type ProjectTileProps = {
+  project: ProjectTypePRIMARY;
+}
+
 // export type BugType = {
 //   id: string,
 //   title: string,
