@@ -45,9 +45,6 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
     try {
 
       const reqBody = {
-          // id is a field we added to session
-          //@ts-ignore
-          owner_id: session?.user?.id,
           title: project.title,
           description : project.description,
           industry : project.industry,
@@ -55,13 +52,16 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
           additional_notes  : project.additional_notes
       }
 
-      console.log("This is the request body we are assembling")
-      console.log(reqBody)
+      const project_id = params.project_id
+      const response = await fetch(`/api/project/${project_id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(reqBody)
+    })
       
-        const response = await fetch('/api/project/new', {
-            method: 'POST',
-            body: JSON.stringify(reqBody)
-        })
+        // const response = await fetch('/api/project/new', {
+        //     method: 'POST',
+        //     body: JSON.stringify(reqBody)
+        // })
 
         if(response.ok){
             router.push('/projects');
