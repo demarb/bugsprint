@@ -21,8 +21,29 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
     additional_notes : "",
   })
   const [submitting, setSubmitting] = useState(false)
+  const [deleting, setDeleting] = useState(false)
 
   const [confirmedProjectName, setConfirmedProjectName] = useState("")
+  const [deleteMatches, setDeleteMatches] = useState(false)
+
+  // const handleConfirmedProjectNameChange = (e : React.ChangeEvent<HTMLInputElement>) =>{
+
+  //   setConfirmedProjectName(e.target.value)
+
+  //   // if(project.project_id===confirmedProjectName){
+  //   //   setDeleteMatches(true)
+  //   // }else{
+  //   // setDeleteMatches(false)
+  //   // }
+  // }
+
+  useEffect(()=>{
+    if(project.project_id===confirmedProjectName){
+      setDeleteMatches(true)
+    }else{
+    setDeleteMatches(false)
+    }
+  },[confirmedProjectName])
 
   useEffect(() => {
     
@@ -57,11 +78,6 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
         method: 'PATCH',
         body: JSON.stringify(reqBody)
     })
-      
-        // const response = await fetch('/api/project/new', {
-        //     method: 'POST',
-        //     body: JSON.stringify(reqBody)
-        // })
 
         if(response.ok){
             router.push('/projects');
@@ -74,14 +90,29 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
     }
 }
 
-  // const [title, setTitle] = useState("")
-  // const [description, setDescription] = useState("")
-  // const [industry, setIndustry] = useState("")
-  // const [client, setClient] = useState("")
-  // const [notes, setNotes] = useState("")
+  const deleteProject = async (e : React.SyntheticEvent) => {
+    console.log("Attempting to deleteProject")
+    e.preventDefault();
+    setDeleting(true)
 
-  // const maxDescriptionLength = 250
-  // const maxNotesLength = 500
+    try {
+
+      const project_id = params.project_id
+      const response = await fetch(`/api/project/${project_id}`, {
+        method: "DELETE"
+      })
+
+
+      if(response.ok){
+        router.push('/projects');
+      }
+    } catch (error) {
+      console.log(error)
+    } finally{
+        setSubmitting(false)
+    }
+  }
+
 
   return (
     <section className='mx-auto py-2'>
@@ -100,62 +131,6 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                 </h3>
 
                 <ProjectForm type={"Update"} submitting={submitting} project={project} setProject={setProject} handleSubmit={updateProject}/>
-
-                {/* <form className="flex flex-col pt-8">
-                  <label className="text-lg">Title
-                    <br className=""/>
-                    <input 
-                      type="text" name="project-title" id="project-title" 
-                      value={title} onChange={(e)=>setTitle(e.target.value)} 
-                      className="form_input"
-                      required maxLength={100}
-                    />
-                  </label>
-
-                  <label className="text-lg">Description
-                    <br className=""/>
-                    <textarea 
-                      name="project-description" id="project-description" 
-                      value={description} onChange={(e)=>setDescription(e.target.value)} 
-                      className="form_textarea"
-                      rows={3} maxLength={maxDescriptionLength}
-                    />
-                    <p className="text-xs text-stone-500">{maxDescriptionLength - description.length} characters remaining</p>
-                  </label>
-
-                  <label className="text-lg">Industry
-                    <br className=""/>
-                    <input 
-                      type="text" name="project-industry" id="project-industry" 
-                      value={industry} onChange={(e)=>setIndustry(e.target.value)} 
-                      className="form_input"
-                      required maxLength={100}
-                    />
-                  </label>
-
-                  <label className="text-lg">Client
-                    <br className=""/>
-                    <input 
-                      type="text" name="project-client" id="project-client" 
-                      value={client} onChange={(e)=>setClient(e.target.value)} 
-                      className="form_input" maxLength={100}
-                    />
-                  </label>
-
-                  <label className="text-lg">Additional Notes
-                    <br className=""/>
-                    <textarea 
-                      name="project-notes" id="project-notes" 
-                      value={notes} onChange={(e)=>setNotes(e.target.value)} 
-                      className="form_input"
-                      rows={6} maxLength={maxNotesLength}
-                    />
-                    <p className="text-xs text-stone-500">{maxNotesLength - notes.length} characters remaining</p>
-
-                  </label>
-
-
-                </form> */}
 
                 <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
                   Save
@@ -189,8 +164,8 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                   className="form_input"
                 />
 
-                <button className='my-2 bg-red-700 border-red-700 border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
-                  Delete Project
+                <button onClick={deleteProject}  disabled={!deleteMatches} className='disabled_delete_btn my-2 bg-red-700 border-red-700 border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
+                  {deleting ? "Deleting Project" : "Delete Project"}
                 </button>
 
               </div>

@@ -72,3 +72,7 @@ body {
 .readonly_form {
   @apply read-only:border-0 read-only:shadow-none read-only:bg-stone-200 read-only:cursor-default;
 }
+
+.disabled_delete_btn {
+  @apply disabled:opacity-50 disabled:hover:bg-red-700 disabled:hover:text-white;
+}

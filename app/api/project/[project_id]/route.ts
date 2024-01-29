@@ -1,4 +1,4 @@
-import { getProjectQuery, updateProjectQuery } from "@/utils/database";
+import { getProjectQuery, updateProjectQuery, deleteProjectQuery } from "@/utils/database";
 import { ProjectTypePRIMARY } from "@/utils/definitions";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -39,23 +39,40 @@ export const PATCH = async (req: NextRequest, { params }: { params: { project_id
         return new NextResponse("Failed to update project details.", { status: 500 })
     }
 
-    // try {
-    //     await connectToDB()
-
-    //     const existingPrompt = await Prompt.findById(params.id)
-
-    //     if (!existingPrompt) {
-    //         return new Response("Prompt not found", { status: 404 })
-    //     }
-
-    //     existingPrompt.prompt = prompt;
-    //     existingPrompt.tag = tag;
-
-    //     await existingPrompt.save();
-
-    //     return new Response(JSON.stringify(existingPrompt), { status: 200 })
-
-    // } catch (error) {
-    //     return new Response("Failed to update the prompt", { status: 500 })
-    // }
 }
+
+// Delete Project
+export const DELETE = async (req: NextRequest, { params }: { params: { project_id: string } }) => {
+    console.log("Inside api/project/[project_id] DELETE request")
+
+    const { project_id } = params 
+    console.log(params)
+    console.log(`ProjectId ${project_id}`)
+
+    try {
+        await deleteProjectQuery(project_id);
+
+        
+        return NextResponse.json("Project successfully deleted", { status: 200 })
+
+    } catch (error) {
+        return new NextResponse("Failed to delete project.", { status: 500 })
+    }
+
+}
+
+//DELETE (delete)
+
+// export const DELETE = async (request, { params }) => {
+//     try {
+//         await connectToDB()
+
+//         // await Prompt.findByIdAndRemove(params.id)
+//         await Prompt.findByIdAndDelete(params.id)
+
+//         return new Response("Prompt deleted successfully", { status: 200 })
+
+//     } catch (error) {
+//         return new Response("Failed to delete the prompt", { status: 500 })
+//     }
+// }

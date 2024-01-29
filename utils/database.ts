@@ -218,3 +218,29 @@ export const updateProjectQuery = async (project: ProjectTypePRIMARY, project_id
     }
 
 }
+
+export const deleteProjectQuery = async (project_id: string) => {
+    const client = await connectToDB()
+
+    // const { title, description, industry, client: project_client, additional_notes} = project
+
+    const query = `DELETE FROM projects WHERE project_id='${project_id}'`
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rowCount===1){
+            return true
+        }
+        
+
+    } catch (error) {
+        console.log("Error in deleteProjectQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
