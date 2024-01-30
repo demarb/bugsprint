@@ -282,3 +282,29 @@ export const createBugQuery = async (bug : BugTypePRIMARY) => {
     }
 
 }
+
+export const getAllProjectBugsQuery = async (project_id: string) => {
+    const client = await connectToDB()
+
+    
+
+    const query = `SELECT * FROM bugs WHERE project_id='${project_id}' `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            return response.rows
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getAllProjectBugsQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}

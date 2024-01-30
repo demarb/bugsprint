@@ -25,7 +25,7 @@ const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) =
         <label className="text-lg py-2">Title
           <br className=""/>
           <input 
-            type="text" name="project-title" id="project-title" 
+            type="text" name="bug-title" id="bug-title" 
             value={bug.title} onChange={(e)=>setBug({...bug, title: e.target.value})} 
             className="form_input readonly_form"
             required maxLength={200}
@@ -60,7 +60,7 @@ const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) =
         <label className="text-lg py-2">Attachment(s)
           <br className=""/>
           {/* <input 
-            type="text" name="project-title" id="project-title" 
+            type="text" name="bug-title" id="bug-title" 
             value={bug.attachment} onChange={(e)=>setBug({...bug, attachment: e.target.value})}  
             className="form_input readonly_form"
             required
@@ -116,7 +116,7 @@ const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) =
         {/* <label className="text-lg py-2">Additional Notes
           <br className=""/>
           <textarea 
-            name="project-notes" id="project-notes" 
+            name="bug-notes" id="bug-notes" 
             value={notes} onChange={(e)=>setNotes(e.target.value)} 
             className="form_input"
             rows={6} maxLength={maxNotesLength}
@@ -125,7 +125,7 @@ const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) =
 
         </label> */}
 
-        {/* <Link href="/projects" className="ml-auto"> */}
+        {/* <Link href="/bugs" className="ml-auto"> */}
           {/* <button type="button"
               key={}
               onClick={}

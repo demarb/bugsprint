@@ -10,16 +10,16 @@ import {
 
 import Link from 'next/link'
 
-import { type BugType } from '@/utils/definitions'
+import { BugTypePRIMARY, type BugType } from '@/utils/definitions'
 import { bugsFakeData } from '@/utils/placeholder-data';
 
 
 
-const BugsTable = ({project_id} : {project_id: string}) => {
+const BugsTable = ({bugs, project_id} : {bugs: BugTypePRIMARY[], project_id: string}) => {
 
-    const data = bugsFakeData
+    const data = bugs
 
-    const columns = useMemo<MRT_ColumnDef<BugType>[]>(
+    const columns = useMemo<MRT_ColumnDef<BugTypePRIMARY>[]>(
         () => [
             // {
             //     id: 'sendEmail',
@@ -36,16 +36,22 @@ const BugsTable = ({project_id} : {project_id: string}) => {
             //     ),
             // },
             {
-                accessorKey: 'id',
+                accessorKey: 'bug_id',
                 header: 'Bug ID',
-                size: 100,
+                size: 200,
                 // enableClickToCopy: true,
             },
             {
                 accessorKey: 'title',
                 header: 'Title',
                 size: 200,
+                
             },
+            // {
+            //     accessorKey: 'description',
+            //     header: 'Title',
+            //     size: 200,
+            // },
             {
                 accessorKey: 'status',
                 header: 'Status',
@@ -62,7 +68,7 @@ const BugsTable = ({project_id} : {project_id: string}) => {
                 size: 150,
             },
             {
-                accessorKey: 'creator',
+                accessorKey: 'creator_id',
                 header: 'Creator',
                 size: 150,
             },
@@ -71,11 +77,11 @@ const BugsTable = ({project_id} : {project_id: string}) => {
                 header: 'Created At',
                 size: 150,
             },
-            {
-                accessorKey: 'assignees',
-                header: 'Assignees',
-                size: 150,
-            },
+            // {
+            //     accessorKey: 'assignees',
+            //     header: 'Assignees',
+            //     size: 150,
+            // },
             // {
             //     //accessorFn function that combines multiple data together
             //     accessorFn: (row) => {
@@ -99,7 +105,7 @@ const BugsTable = ({project_id} : {project_id: string}) => {
             // },
             {
                 accessorFn: (row)=> {
-                    if(row.customer_reported){
+                    if(row.is_user_reported){
                         return "True"
                     }
                     return "False"
@@ -117,7 +123,8 @@ const BugsTable = ({project_id} : {project_id: string}) => {
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.),
         enableRowActions: true,
-        getRowId: (originalRow) => originalRow.id,
+        //The ! at the end tells typescript to treat this undefined as a non-null value because we are certain it will be a string as its coming from our database.
+        getRowId: (originalRow) => originalRow.bug_id!,
         renderRowActions: ({ row }) => (
             <div>
                 <Link href={`/project/${project_id}/bug/${row.id}`}>
