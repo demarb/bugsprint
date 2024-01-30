@@ -19,7 +19,7 @@ const ProjectForm = ({type, submitting, project, setProject, handleSubmit} : Pro
                 type="text" name="project-title" id="project-title" 
                 value={project.title} onChange={(e)=>setProject({...project, title: e.target.value})}
                 className="form_input readonly_form"
-                required maxLength={100}
+                required maxLength={33}
                 readOnly={!isFormEditable}
             />
             </label>

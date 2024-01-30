@@ -80,7 +80,9 @@ const BugPage = ({ params }: { params: { "project_id": string, "bug_id": string 
 
       <div className=''>
         <div className='flex flex-col justify-between'>
-          <h2 className='text-4xl text-primary-green'>Bug Id: {bug_id}</h2>
+          <h2 className='text-4xl text-primary-green'>Bug Id: 
+            <span className='text-3xl'> {bug_id}</span>
+          </h2>
 
             <div className='py-2 md:py-4'>
                 

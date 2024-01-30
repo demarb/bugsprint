@@ -6,6 +6,11 @@
   border: solid red 1px;
 } */
 
+/* No Tailwind Equivalent */
+.wordWrap_break{
+  word-wrap: break-word;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
