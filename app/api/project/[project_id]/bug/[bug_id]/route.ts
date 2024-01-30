@@ -1,4 +1,4 @@
-import { getBugQuery, updateBugQuery, deleteProjectQuery } from "@/utils/database";
+import { getBugQuery, updateBugQuery, deleteBugQuery } from "@/utils/database";
 import { BugTypePRIMARY } from "@/utils/definitions";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -36,27 +36,27 @@ export const PATCH = async (req: NextRequest, { params }: { params: { project_id
         return NextResponse.json(bug, { status: 200 })
 
     } catch (error) {
-        return new NextResponse("Failed to update project details.", { status: 500 })
+        return new NextResponse("Failed to update bug details.", { status: 500 })
     }
 
 }
 
 // Delete Bug
-export const DELETE = async (req: NextRequest, { params }: { params: { project_id: string } }) => {
+export const DELETE = async (req: NextRequest, { params }: { params: { project_id: string, bug_id: string } }) => {
     console.log("Inside api/project/[project_id]/bug/[bug_id] DELETE request")
 
-    const { project_id } = params 
+    const { bug_id } = params 
     console.log(params)
-    console.log(`ProjectId ${project_id}`)
+    console.log(`BugId: ${bug_id}`)
 
     try {
-        await deleteProjectQuery(project_id);
+        await deleteBugQuery(bug_id);
 
         
-        return NextResponse.json("Project successfully deleted", { status: 200 })
+        return NextResponse.json("Bug successfully deleted", { status: 200 })
 
     } catch (error) {
-        return new NextResponse("Failed to delete project.", { status: 500 })
+        return new NextResponse("Failed to delete bug.", { status: 500 })
     }
 
 }

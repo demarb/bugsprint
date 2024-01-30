@@ -28,7 +28,7 @@ const ProjectTitleLink = ({project_id}: {project_id: string}) => {
 
     return (
         <Link href={`/project/${project_id}`}> 
-            <h1 className='text-4xl font-extrabold text-primary-green md:text-white py-4 wordWrap_break'>{project.title || "Project"}</h1>
+            <h1 className='text-4xl font-extrabold text-primary-green hover:underline md:text-white py-4 wordWrap_break'>{project.title || "Project"}</h1>
         </Link>
     )
 }

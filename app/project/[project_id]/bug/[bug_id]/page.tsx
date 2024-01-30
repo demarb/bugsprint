@@ -24,6 +24,7 @@ const BugPage = ({ params }: { params: { "project_id": string, "bug_id": string 
   })
 
   const [submitting, setSubmitting] = useState(false)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     
@@ -75,14 +76,44 @@ const BugPage = ({ params }: { params: { "project_id": string, "bug_id": string 
     }
 }
 
+const deleteBug = async (e : React.SyntheticEvent) => {
+  console.log("Attempting to deleteBug")
+  e.preventDefault();
+  setDeleting(true)
+
+  try {
+
+    // const project_id = params.project_id
+    const response = await fetch(`/api/project/${project_id}/bug/${bug_id}`, {
+      method: "DELETE"
+    })
+
+
+    if(response.ok){
+      router.push(`/project/${project_id}`);
+    }
+  } catch (error) {
+    console.log(error)
+  } finally{
+      setSubmitting(false)
+  }
+}
+
   return (
     <section className='mx-auto py-2'>
 
       <div className=''>
         <div className='flex flex-col justify-between'>
-          <h2 className='text-4xl text-primary-green'>Bug Id: 
-            <span className='text-3xl'> {bug_id}</span>
+          {/* <div className=''>
+
+          </div> */}
+          <h2 className='text-3xl font-bold text-primary-green'>Bug ID: 
+            <span className='text-3xl font-normal'> {bug_id}</span>
           </h2>
+          
+          {/* <button onClick={deleteBug} className='delete_btn'>
+            {deleting ? "Deleting Bug" : "Delete Bug"}
+          </button> */}
 
             <div className='py-2 md:py-4'>
                 
@@ -95,6 +126,13 @@ const BugPage = ({ params }: { params: { "project_id": string, "bug_id": string 
             />
             
             </div>
+
+            <div className="w-full lg:w-4/5 flex">
+              <button onClick={deleteBug} className='delete_btn ml-auto'>
+                {deleting ? "Deleting Bug" : "Delete Bug"}
+              </button>
+            </div>
+            
         </div>       
       </div>
       

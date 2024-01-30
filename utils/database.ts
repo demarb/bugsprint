@@ -360,3 +360,29 @@ export const updateBugQuery = async (bug: BugTypePRIMARY, bug_id: string) => {
     }
 
 }
+
+export const deleteBugQuery = async (bug_id: string) => {
+    const client = await connectToDB()
+
+    // const { title, description, industry, client: project_client, additional_notes} = project
+
+    const query = `DELETE FROM bugs WHERE bug_id='${bug_id}'`
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rowCount===1){
+            return true
+        }
+        
+
+    } catch (error) {
+        console.log("Error in deleteBugQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}

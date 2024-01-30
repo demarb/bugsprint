@@ -164,7 +164,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
                   className="form_input"
                 />
 
-                <button onClick={deleteProject}  disabled={!deleteMatches} className='disabled_delete_btn my-2 bg-red-700 border-red-700 border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
+                <button onClick={deleteProject}  disabled={!deleteMatches} className='disabled_delete_btn delete_btn'>
                   {deleting ? "Deleting Project" : "Delete Project"}
                 </button>
 
