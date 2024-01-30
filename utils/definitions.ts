@@ -67,6 +67,30 @@ export type BugType = {
   customer_reported: boolean,
 };
 
+export type BugTypePRIMARY = {
+  bug_id?: string,
+  project_id?: string,
+  creator_id?: string,
+  title: string,
+  description: string,
+  status: "Open" | "In Progress"| "Closed",
+  priority: "Low" | "Medium"| "High" | "Critical",
+  severity: "Minor" | "Moderate"| "Major" | "Critical",
+  environment: string,
+  is_user_reported: boolean,
+  attachment?: string,
+  created_at?: string,
+  updated_at?: string,
+}
+
+export type BugFormProps = {
+  type: string;
+  submitting: boolean;
+  bug: BugTypePRIMARY;
+  setBug: React.Dispatch<React.SetStateAction<BugTypePRIMARY>>; 
+  handleSubmit: React.MouseEventHandler<HTMLButtonElement>;
+}
+
 export interface ProviderProps {
   children: React.ReactNode;
   session?: Session;

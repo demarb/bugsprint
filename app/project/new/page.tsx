@@ -67,7 +67,13 @@ const NewProjectPage = () => {
       
       <h2 className="py-2 md:py-4 text-lg text-primary-green font-bold">Note: All projects are private by default. You can modify this later.</h2>
       
-      <ProjectForm type={"Create"} submitting={submitting} project={project} setProject={setProject} handleSubmit={createProject}/>
+      <ProjectForm 
+        type={"Create"} 
+        submitting={submitting} 
+        project={project} 
+        setProject={setProject} 
+        handleSubmit={createProject}
+      />
       
     </section>
   )

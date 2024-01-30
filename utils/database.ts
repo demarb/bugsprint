@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { Pool } from 'pg';
 import type { PoolClient } from 'pg';
-import { ProjectTypePRIMARY } from './definitions';
+import { BugTypePRIMARY, ProjectTypePRIMARY } from './definitions';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -238,6 +238,44 @@ export const deleteProjectQuery = async (project_id: string) => {
 
     } catch (error) {
         console.log("Error in deleteProjectQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+export const createBugQuery = async (bug : BugTypePRIMARY) => {
+    const client = await connectToDB()
+
+    const bug_id = nanoid()
+
+    const {project_id, creator_id, title, description, status, priority, severity, environment, is_user_reported} = bug
+    
+
+
+    const query = `INSERT INTO bugs (bug_id, project_id, creator_id, title, description, status, priority, severity, environment, is_user_reported) VALUES 
+                    ('${bug_id}', '${project_id}', '${creator_id}', '${title}', '${description}', '${status}', '${priority}', '${severity}', '${environment}', ${is_user_reported})`
+    console.log(`QUERY BEING EXECUTED: ${query}`)        
+
+    try {
+        
+        const response = await client.query(query)
+
+        // console.log(`QUERY RESPONSE: `)
+        // console.log(response)
+        // console.log(`QUERY RESPONSE ROWS: `)
+        // console.log(response.rows)
+        // console.log(`QUERY ROW COUNT: `)
+        // console.log(response.rowCount)
+
+        if(response.rowCount===1){
+            return true
+        }
+        return false
+
+    } catch (error) {
+        console.log("Error in createBugQuery:")
         console.log(error)
     } finally{
         closeDBConnnection(client)
