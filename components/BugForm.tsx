@@ -7,13 +7,6 @@ import { BugFormProps, ProjectTypePRIMARY } from "@/utils/definitions"
 
 const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) => {
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [status, setStatus] = useState("")
-    const [priority, setPriority] = useState("")
-    const [severity, setSeverity] = useState("")
-    const [environment, setEnvironment] = useState("")
-
     const [isFormEditable, setFormEditable] = useState(false);
 
     const maxDescriptionLength = 2000
@@ -42,7 +35,7 @@ const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) =
             rows={24} maxLength={maxDescriptionLength}
             readOnly={!isFormEditable}
           />
-          <p className="text-xs text-stone-500">{maxDescriptionLength - description.length} characters remaining</p>
+          <p className="text-xs text-stone-500">{maxDescriptionLength - bug.description.length} characters remaining</p>
         </label>
 
         <label className="text-lg py-2">Environment Details (browser, version, operating system, etc)
@@ -54,7 +47,7 @@ const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) =
             rows={12} maxLength={maxEnvironmentLength}
             readOnly={!isFormEditable}
           />
-          <p className="text-xs text-stone-500">{maxEnvironmentLength - environment.length} characters remaining</p>
+          <p className="text-xs text-stone-500">{maxEnvironmentLength - bug.environment.length} characters remaining</p>
         </label>
 
         <label className="text-lg py-2">Attachment(s)

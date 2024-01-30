@@ -44,7 +44,7 @@ const BugsTable = ({bugs, project_id} : {bugs: BugTypePRIMARY[], project_id: str
             {
                 accessorKey: 'title',
                 header: 'Title',
-                size: 200,
+                size: 250,
 
             },
             // {
@@ -55,17 +55,17 @@ const BugsTable = ({bugs, project_id} : {bugs: BugTypePRIMARY[], project_id: str
             {
                 accessorKey: 'status',
                 header: 'Status',
-                size: 150,
+                size: 100,
             },
             {
                 accessorKey: 'priority',
                 header: 'Priority',
-                size: 150,
+                size: 100,
             },
             {
                 accessorKey: 'severity',
                 header: 'Severity',
-                size: 150,
+                size: 100,
             },
             {
                 accessorFn: (row)=> {
@@ -74,9 +74,9 @@ const BugsTable = ({bugs, project_id} : {bugs: BugTypePRIMARY[], project_id: str
                     }
                     return "False"
                 },
-                id: "customer_reported",
-                header: 'Customer Reported',
-                size: 150,
+                id: "is_user_reported",
+                header: 'User Reported',
+                size: 100,
             },
             {
                 accessorKey: 'creator_id',

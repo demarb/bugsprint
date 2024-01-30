@@ -308,3 +308,55 @@ export const getAllProjectBugsQuery = async (project_id: string) => {
     }
 
 }
+
+export const getBugQuery = async (bug_id: string) => {
+    const client = await connectToDB()
+
+    const query = `SELECT * FROM bugs WHERE bug_id='${bug_id}' `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            return response.rows[0]
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getBugQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+export const updateBugQuery = async (bug: BugTypePRIMARY, bug_id: string) => {
+    const client = await connectToDB()
+
+    const { title, description, status, priority, severity, environment, is_user_reported } = bug
+
+    const query = `UPDATE bugs 
+        SET title='${title}', description='${description}', status='${status}', priority='${priority}', severity='${severity}', environment='${environment}', is_user_reported=${is_user_reported}
+        WHERE bug_id='${bug_id}' `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rowCount===1){
+            return true
+        }
+        
+
+    } catch (error) {
+        console.log("Error in updateBugQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
