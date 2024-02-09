@@ -17,6 +17,7 @@ export type ProjectTypePRIMARY = {
   client : string;
   additional_notes  : string;
   created_at?: string;
+  access_code?: string;
 };
 
 export type ProjectFormProps = {

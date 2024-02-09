@@ -103,17 +103,23 @@ export const getUserQuery = async (email: string) => {
 
 }
 
+// Project related queries
 export const createProjectQuery = async (project : ProjectTypePRIMARY) => {
     const client = await connectToDB()
 
     const project_id = nanoid()
+    let access_code;
+    do {
+        access_code = Math.floor(100000000 + Math.random() * 900000000).toString().substring(0, 9);
+    } while (!(await checkUniqueAccessCodeQuery(access_code)));
+    
 
     const {owner_id, title, description, industry, additional_notes} = project
     const project_client = project.client
 
 
-    const query = `INSERT INTO projects (project_id, owner_id, title, description, industry, client, additional_notes) VALUES 
-                    ('${project_id}', '${owner_id}', '${title}', '${description}', '${industry}', '${project_client}', '${additional_notes}')`
+    const query = `INSERT INTO projects (project_id, owner_id, title, description, industry, client, additional_notes, access_code) VALUES 
+                    ('${project_id}', '${owner_id}', '${title}', '${description}', '${industry}', '${project_client}', '${additional_notes}', '${access_code}')`
     console.log(`QUERY BEING EXECUTED: ${query}`)        
 
     try {
@@ -245,6 +251,8 @@ export const deleteProjectQuery = async (project_id: string) => {
 
 }
 
+
+// Bug related queries
 export const createBugQuery = async (bug : BugTypePRIMARY) => {
     const client = await connectToDB()
 
@@ -385,4 +393,10 @@ export const deleteBugQuery = async (bug_id: string) => {
         closeDBConnnection(client)
     }
 
+}
+
+//Other utility functions to query database
+export const checkUniqueAccessCodeQuery = async (access_code: string) => {
+    const result = await pool.query('SELECT COUNT(*) FROM Projects WHERE access_code = $1', [access_code]);
+    return parseInt(result.rows[0].count) === 0;
 }

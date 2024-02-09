@@ -1,11 +1,30 @@
 "use client"
 
 import MemberCard from '@/components/MemberCard'
-import { useState } from 'react'
+import { ProjectTypePRIMARY } from '@/utils/definitions'
+import { useState, useEffect } from 'react'
 
-const ProjectMembersPage = () => {
+const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) => {
 
-  const [inviteeEmail, setInviteeEmail] = useState("")
+    const [project, setProject] = useState<ProjectTypePRIMARY>({
+      title: "",
+      description : "",
+      industry : "",
+      client : "",
+      additional_notes : "",
+    })
+
+  useEffect(() => {
+
+      const fetchProject = async () => {
+        const response = await fetch(`/api/project/${params.project_id}`)
+        const data = await response.json()
+        setProject(data)
+      }
+    
+        fetchProject()
+
+    }, [])
 
   return (
     <section className='mx-auto py-2'>
@@ -27,6 +46,20 @@ const ProjectMembersPage = () => {
               className="green_btn mx-2">Invite New Members
             </button> */}
           </div>
+
+          {/* <div className='py-2 md:py-4'>
+              <h2 className='text-2xl text-primary-green'>Collaboration</h2>
+
+              <div className=''>
+                <div>
+                  <h3 className='text-2xl text-primary-green py-2' >Share Your Project Access Code To Collaborate</h3>
+                  <h3 className='text-2xl text-primary-green py-2' >Access Code : 
+                    <span className='font-bold'> 999000999</span>
+                  </h3>
+
+                </div>
+              </div>
+            </div> */}
 
           <div className='py-2 md:py-4'>
               <h2 className='text-2xl text-primary-green'>User Permissions</h2>
@@ -74,6 +107,35 @@ const ProjectMembersPage = () => {
               
             </div>
 
+            {/* <div className='py-2 md:py-4'>
+              <h2 className='text-2xl text-primary-green'>Collaboration</h2>
+
+              <div className=''>
+                <div>
+                  <h3 className='text-2xl text-primary-green py-2' >Share Your Project Access Code To Collaborate</h3>
+                  <h3 className='text-2xl text-primary-green py-2' >Access Code : 
+                    <span className='font-bold'> 999000999</span>
+                  </h3>
+
+                </div>
+              </div>
+            </div>
+
+            <div className='py-2 md:py-4'>
+              <h2 className='text-2xl text-primary-green'>Pending Join Requests</h2>
+
+              
+              <div className=''>
+                <div>
+                  <h3 className='text-xl font-bold text-primary-green py-2' >Owner</h3>
+                  <ul className='list-disc list-inside'>
+                    <li>exampleuser@mail.com | Approve | Deny </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div> */}
+
           <div className='py-2 md:py-4'>
               <h2 className='text-2xl text-primary-green'>Existing Members</h2>
 
@@ -94,7 +156,9 @@ const ProjectMembersPage = () => {
               
             </div>
 
-          <div className='py-2 md:py-4'>
+
+          <hr />
+          {/* <div className='py-2 md:py-4'>
               <h2 className='text-2xl text-primary-green'>Invite New Members to the Team</h2>
 
               <div className='flex flex-col justify-around'>
@@ -113,6 +177,36 @@ const ProjectMembersPage = () => {
                   </button>
                 </div>
                 
+
+              </div>
+            </div> */}
+
+
+          <div className='py-2 md:py-4'>
+              <h2 className='text-2xl text-primary-green'>Share Your Project Access Code To Collaborate</h2>
+
+              <div className=''>
+                <div>
+                  {/* <h3 className='text-2xl text-primary-green py-2' >Share Your Project Access Code To Collaborate</h3> */}
+                  <h3 className='text-2xl text-primary-green py-2' >Access Code : 
+                    <span className='font-bold'> {project.access_code ||  '#########'}</span>
+                  </h3>
+
+                </div>
+              </div>
+            </div>
+
+            <div className='py-2 md:py-4'>
+              <h2 className='text-2xl text-primary-green'>Pending Join Requests</h2>
+
+              
+              <div className=''>
+                <div>
+                  {/* <h3 className='text-xl font-bold text-primary-green py-2' >Owner</h3> */}
+                  <ul className='list-disc list-inside'>
+                    <li>exampleuser@mail.com | Approve | Deny </li>
+                  </ul>
+                </div>
 
               </div>
             </div>
