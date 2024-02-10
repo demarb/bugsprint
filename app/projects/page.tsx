@@ -11,6 +11,9 @@ const ProjectsPage = () => {
 
   const {data: session} = useSession()
   const [projects, setProjects] = useState<ProjectTypePRIMARY[]>([])
+  const [accessCode, setAccessCode] = useState("")
+  const [toggleJoinDropdown, setToggleJoinDropdown] = useState(false)
+
 
   // console.log(projectsFakeData)
 
@@ -38,6 +41,7 @@ const ProjectsPage = () => {
   
 
   let hasProjects = projects.length>0 ? true : false
+  hasProjects = true
 
   return (
     <section className='w-4/5 mx-auto py-12'>
@@ -46,8 +50,9 @@ const ProjectsPage = () => {
         <h1 className='text-6xl font-extrabold text-primary-green'>Projects</h1>
 
         {
-          hasProjects ? 
-            <Link href="/project/new" className="flex">
+          hasProjects ?
+          <div className='flex'>
+            <Link href="/project/new" className="px-2">
               <button 
                 type="button"
                 // key={}
@@ -56,7 +61,67 @@ const ProjectsPage = () => {
               >
                 New
               </button>
-          </Link>
+            </Link>
+ 
+
+            <div className='relative'>
+
+              <button 
+                  type="button"
+                  // key={}
+                  // onClick={}
+                  className="green_btn text-center items-center px-2"
+                  // onClick={()=>setToggleJoinDropdown(true)}
+                  onClick={()=>setToggleJoinDropdown((prev)=>!prev)} 
+                >
+                  Join
+                </button>
+
+              {toggleJoinDropdown && (
+                <div className="absolute -right-full mt-3 p-5 rounded-lg bg-primary-green min-w-[210px] flex flex-col gap-2 justify-end items-end">
+                  {/* <Link
+                    href="/profile"
+                    className="dropdown_link"
+                    onClick={()=>setToggleJoinDropdown(false)}
+                  >
+                    Profile
+                  </Link> */}
+                  
+                  <h1 className='text-3xl text-white'>Join a Project</h1>
+                  <h2 className='text-sm text-white'>Entire access code to join an existing project...</h2>
+                  <form >
+                    <input 
+                      type="number" name="project-title" id="project-title" 
+                      value={accessCode} onChange={(e)=>setAccessCode(e.target.value)}
+                      className="form_input readonly_form font-bold text-5xl"
+                      min={100000000} max={999999999} maxLength={9}
+                    />
+                    <button type="submit" className='inverted_green_btn ml-auto mt-2'>Join</button>
+                  </form>
+
+
+                  {/* <button className="mt-5 w-full inverted_green_btn" type="button" onClick={()=>{
+                    setToggleJoinDropdown(false);
+                    // signOut();
+                  }}>
+                    Sign Out
+                  </button> */}
+                </div>
+              )}
+            </div>
+
+            {/* <button 
+                type="button"
+                key={}
+                onClick={}
+                className="green_btn text-center items-center px-2"
+              >
+                Join
+              </button> */}
+
+
+          </div> 
+            
 
           :
 
@@ -91,12 +156,31 @@ const ProjectsPage = () => {
             // </div>
           :
           
-          <Link href="/project/new" className="flex">
+          <div>
+            <Link href="/project/new" className="flex">
             <div className='border-2 rounded-md border-stone-400 p-8 mt-8 md:mt-16 w-full hover:border-primary-green hover:cursor-pointer'>
               <h1 className='text-3xl'>Create a New Project</h1>
               <h2 className='text-sm text-stone-500'>Start tracking bugs for your next project here...</h2>
             </div>
           </Link>
+          <div className="flex">
+            <div className='border-2 rounded-md border-stone-400 p-8 mt-8 md:mt-16 w-full hover:border-primary-green'>
+              
+              <h1 className='text-3xl'>Join a Project</h1>
+              <h2 className='text-sm text-stone-500'>Entire access code to join an existing project...</h2>
+              <form >
+                <input 
+                  type="number" name="project-title" id="project-title" 
+                  value={accessCode} onChange={(e)=>setAccessCode(e.target.value)}
+                  className="form_input readonly_form font-bold text-5xl"
+                  min={100000000} max={999999999} maxLength={9}
+                />
+                <button type="submit" className='green_btn ml-2 mt-2'>Join</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
           
           
         }
