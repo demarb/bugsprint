@@ -41,7 +41,36 @@ const ProjectsPage = () => {
   
 
   let hasProjects = projects.length>0 ? true : false
-  hasProjects = true
+  hasProjects = false
+
+  const handleJoinClick = async (e : React.SyntheticEvent) =>{
+    e.preventDefault()
+
+
+
+    try {
+      const reqBody = {
+          // id is a field we added to session
+          //@ts-ignore
+          user_id: session?.user?.id,
+          access_code: accessCode,
+      }
+
+      console.log("This is the request body we are assembling")
+      console.log(reqBody)
+      
+        const response = await fetch('/api/project/join', {
+            method: 'POST',
+            body: JSON.stringify(reqBody)
+        })
+    } catch (error) {
+      
+    }finally{
+      setAccessCode("")
+      setToggleJoinDropdown(false)
+    }
+    
+  }
 
   return (
     <section className='w-4/5 mx-auto py-12'>
@@ -96,7 +125,7 @@ const ProjectsPage = () => {
                       className="form_input readonly_form font-bold text-5xl"
                       min={100000000} max={999999999} maxLength={9}
                     />
-                    <button type="submit" className='inverted_green_btn ml-auto mt-2'>Join</button>
+                    <button type="submit" onClick={(e)=>handleJoinClick(e)} className='inverted_green_btn ml-auto mt-2'>Join</button>
                   </form>
 
 
@@ -175,7 +204,7 @@ const ProjectsPage = () => {
                   className="form_input readonly_form font-bold text-5xl"
                   min={100000000} max={999999999} maxLength={9}
                 />
-                <button type="submit" className='green_btn ml-2 mt-2'>Join</button>
+                <button type="submit" onClick={(e)=>handleJoinClick(e)} className='green_btn ml-2 mt-2' >Join</button>
               </form>
 
             </div>

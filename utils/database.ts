@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { Pool } from 'pg';
 import type { PoolClient } from 'pg';
-import { BugTypePRIMARY, ProjectTypePRIMARY } from './definitions';
+import { BugTypePRIMARY, ProjectTypePRIMARY, JoinRequestType } from '@/utils/definitions';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -177,6 +177,30 @@ export const getProjectQuery = async (project_id: string) => {
     const client = await connectToDB()
 
     const query = `SELECT * FROM projects WHERE project_id='${project_id}' `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            return response.rows[0]
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getProjectQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+export const getProjectByAccessCodeQuery = async (access_code: string) => {
+    const client = await connectToDB()
+
+    const query = `SELECT * FROM projects WHERE access_code='${access_code}' `
     console.log(`QUERY BEING EXECUTED: ${query}`)
 
     try {
@@ -395,8 +419,85 @@ export const deleteBugQuery = async (bug_id: string) => {
 
 }
 
+//Join requests Queries
+export const existingJoinRequestExistsQuery = async (joinrequest: {user_id: string, access_code: string}) => {
+
+    const client = await connectToDB()
+
+    const project : ProjectTypePRIMARY = await getProjectByAccessCodeQuery(joinrequest.access_code)
+
+    const query = `SELECT COUNT(*) FROM joinrequests WHERE project_id = $1 AND user_id = $2 AND status = 'Pending'`
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        const result = await client.query(query, [project.project_id, joinrequest.user_id]);
+        //Returns true if an existing pending join request is found
+        return parseInt(result.rows[0].count) === 1;
+    } catch (error) {
+        console.log("Error in existingJoinRequestExistsQuery:")
+        console.log(error)
+    }finally{
+        closeDBConnnection(client)
+    }
+
+    
+
+}
+
+export const createJoinRequestQuery = async (joinrequest : {user_id: string, access_code: string}) => {
+    const client = await connectToDB()
+
+    const {user_id, access_code} = joinrequest
+    
+    const project : ProjectTypePRIMARY = await getProjectByAccessCodeQuery(access_code)
+    const {project_id} = project
+
+    const query = `INSERT INTO joinrequests (user_id, project_id, status) VALUES 
+                    ('${user_id}', '${project_id}', 'Pending')`
+    console.log(`QUERY BEING EXECUTED: ${query}`)        
+
+    try {
+        
+        const response = await client.query(query)
+
+        // console.log(`QUERY RESPONSE: `)
+        // console.log(response)
+        // console.log(`QUERY RESPONSE ROWS: `)
+        // console.log(response.rows)
+        // console.log(`QUERY ROW COUNT: `)
+        // console.log(response.rowCount)
+
+        if(response.rowCount===1){
+            return true
+        }
+        return false
+
+    } catch (error) {
+        console.log("Error in createJoinRequestQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
 //Other utility functions to query database
 export const checkUniqueAccessCodeQuery = async (access_code: string) => {
-    const result = await pool.query('SELECT COUNT(*) FROM Projects WHERE access_code = $1', [access_code]);
-    return parseInt(result.rows[0].count) === 0;
+    const client = await connectToDB()
+    const query = `SELECT COUNT(*) FROM projects WHERE access_code = '${access_code}'`;
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        const result = await client.query(query);
+        //Returns true if project was found with this access code
+        console.log(parseInt(result.rows[0].count))
+        return parseInt(result.rows[0].count) === 1;
+    } catch (error) {
+        console.log("Error in checkUniqueAccessCodeQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+    
 }
+

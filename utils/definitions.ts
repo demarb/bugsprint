@@ -96,3 +96,11 @@ export interface ProviderProps {
   children: React.ReactNode;
   session?: Session;
 }
+
+export type JoinRequestType = {
+  id? : number;
+  user_id : string;
+  project_id : string;
+  status? : "Pending" | "Approved" | "Denied";
+  created_at?: string;
+}
