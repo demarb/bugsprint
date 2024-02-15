@@ -33,6 +33,35 @@ const PendingRequestTile = ({joinrequest, project_id, setJoinRequests} : {joinre
 
   }
 
+  const approveJoinRequest = async (e : React.SyntheticEvent) => {
+    e.preventDefault()
+    console.log("Attempting to approveJoinRequest")
+
+      try {
+          const response = await fetch(`/api/project/${project_id}/join/approve`, {
+            method: 'PATCH',
+            body: JSON.stringify(joinrequest)
+        })
+
+        if(response.ok){
+          // filterUpdatedJoinRequest(joinrequest.joinrequest_id)
+
+          setJoinRequests((prev)=>{
+            return(
+              prev.filter((joinrequest)=>joinrequest.joinrequest_id!=joinrequest.joinrequest_id)
+            )
+          })
+
+        }
+
+    } catch (error) {
+        console.log(error)
+    } finally{
+        // setSubmitting(false)
+    }
+
+  }
+
 
     
 
@@ -62,6 +91,7 @@ const PendingRequestTile = ({joinrequest, project_id, setJoinRequests} : {joinre
                 width={40}
                 height={40}
                 className="cursor-pointer" 
+                onClick={(e)=>approveJoinRequest(e)}
                 />
               </div>
             </div>

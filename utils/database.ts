@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { Pool } from 'pg';
 import type { PoolClient } from 'pg';
-import { BugTypePRIMARY, ProjectTypePRIMARY, JoinRequestType } from '@/utils/definitions';
+import { BugTypePRIMARY, ProjectTypePRIMARY, JoinRequestType, UserJoinRequestType } from '@/utils/definitions';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -486,7 +486,7 @@ export const getAllProjectJoinRequestsQuery = async (project_id: string) => {
 
     
 
-    const query = `SELECT joinrequests.id AS joinrequest_id, users.user_id, users.email, users.username, users.image
+    const query = `SELECT joinrequests.id AS joinrequest_id, joinrequests.project_id AS project_id, users.user_id, users.email, users.username, users.image
                     FROM users
                     JOIN joinrequests ON users.user_id = joinrequests.user_id
                     WHERE joinrequests.project_id = '${project_id}'
@@ -529,7 +529,67 @@ export const denyJoinRequestQuery = async (joinrequest_id: number) => {
         
 
     } catch (error) {
-        console.log("Error in updateDenyJoinRequestQuery:")
+        console.log("Error in denyJoinRequestQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+export const approveJoinRequestQuery = async (joinrequest_id: number) => {
+    const client = await connectToDB()
+
+
+    const query = `UPDATE joinrequests SET status='Approved' WHERE id=${joinrequest_id} `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rowCount===1){
+            return true
+        }
+        
+
+    } catch (error) {
+        console.log("Error in approveJoinRequestQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+// User project associations queries
+export const createUserProjectAssociationQuery = async (joinrequest : UserJoinRequestType, role: string) => {
+    const client = await connectToDB()
+
+    const {user_id, project_id} = joinrequest
+
+    const query = `INSERT INTO user_project_associations (user_id, project_id, role) VALUES 
+                    ('${user_id}', '${project_id}', '${role}')`
+    console.log(`QUERY BEING EXECUTED: ${query}`)        
+
+    try {
+        
+        const response = await client.query(query)
+
+        // console.log(`QUERY RESPONSE: `)
+        // console.log(response)
+        // console.log(`QUERY RESPONSE ROWS: `)
+        // console.log(response.rows)
+        // console.log(`QUERY ROW COUNT: `)
+        // console.log(response.rowCount)
+
+        if(response.rowCount===1){
+            return true
+        }
+        return false
+
+    } catch (error) {
+        console.log("Error in createUserProjectAssociationQuery:")
         console.log(error)
     } finally{
         closeDBConnnection(client)

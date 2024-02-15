@@ -107,6 +107,7 @@ export type JoinRequestType = {
 
 export type UserJoinRequestType = {
   joinrequest_id: number;
+  project_id: string;
   user_id: string;
   email: string;
   username: string;
