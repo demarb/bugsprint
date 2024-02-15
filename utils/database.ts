@@ -481,6 +481,63 @@ export const createJoinRequestQuery = async (joinrequest : {user_id: string, acc
 
 }
 
+export const getAllProjectJoinRequestsQuery = async (project_id: string) => {
+    const client = await connectToDB()
+
+    
+
+    const query = `SELECT joinrequests.id AS joinrequest_id, users.user_id, users.email, users.username, users.image
+                    FROM users
+                    JOIN joinrequests ON users.user_id = joinrequests.user_id
+                    WHERE joinrequests.project_id = '${project_id}'
+                    AND joinrequests.status = 'Pending';`
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            console.log(response.rows)
+            return response.rows
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getAllProjectJoinRequestsQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+export const denyJoinRequestQuery = async (joinrequest_id: number) => {
+    const client = await connectToDB()
+
+
+    const query = `UPDATE joinrequests SET status='Denied' WHERE id=${joinrequest_id} `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rowCount===1){
+            return true
+        }
+        
+
+    } catch (error) {
+        console.log("Error in updateDenyJoinRequestQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+
 //Other utility functions to query database
 export const checkUniqueAccessCodeQuery = async (access_code: string) => {
     const client = await connectToDB()

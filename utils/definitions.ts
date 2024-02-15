@@ -104,3 +104,11 @@ export type JoinRequestType = {
   status? : "Pending" | "Approved" | "Denied";
   created_at?: string;
 }
+
+export type UserJoinRequestType = {
+  joinrequest_id: number;
+  user_id: string;
+  email: string;
+  username: string;
+  image: string;
+}

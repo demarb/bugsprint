@@ -1,7 +1,9 @@
 "use client"
 
+import Image from "next/image"
 import MemberCard from '@/components/MemberCard'
-import { ProjectTypePRIMARY } from '@/utils/definitions'
+import PendingRequestTile from '@/components/PendingRequestTile'
+import { ProjectTypePRIMARY, UserJoinRequestType } from '@/utils/definitions'
 import { useState, useEffect } from 'react'
 
 const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) => {
@@ -13,6 +15,18 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
       client : "",
       additional_notes : "",
     })
+
+    const [joinRequests, setJoinRequests] = useState<UserJoinRequestType[]>([])
+
+    // const filterUpdatedJoinRequest = (joinrequest_id: number) =>{
+      // setJoinRequests((prev)=>{
+      //   return(
+      //     prev.filter((joinrequest)=>joinrequest.joinrequest_id!=joinrequest_id)
+      //   )
+      // })
+    // }
+
+    
 
   useEffect(() => {
 
@@ -26,40 +40,31 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
 
     }, [])
 
+    useEffect(() => {
+    
+      const fetchJoinRequests = async () => {
+        const project_id = params.project_id
+        const response = await fetch(`/api/project/${project_id}/join`)
+        const data = await response.json()
+        // setJoinRequests(data)
+        setJoinRequests(data)
+      }
+    
+      fetchJoinRequests()
+  
+    }, [])
+
+
+    const copyToClipboard = (text: string) => {
+      navigator.clipboard.writeText(text)
+    }
+
   return (
     <section className='mx-auto py-2'>
 
       <div className=''>
         <div className='flex flex-col justify-between'>
           <h2 className='text-4xl text-primary-green'>Members</h2>
-          <div className='flex'>
-            {/* <button type="button"
-            //   key={}
-            //   onClick={}
-              className="rounded-md hover:border hover:border-primary-green "
-            >
-            </button> */}
-
-            {/* <button type="button"
-            //   key={}
-            //   onClick={}
-              className="green_btn mx-2">Invite New Members
-            </button> */}
-          </div>
-
-          {/* <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Collaboration</h2>
-
-              <div className=''>
-                <div>
-                  <h3 className='text-2xl text-primary-green py-2' >Share Your Project Access Code To Collaborate</h3>
-                  <h3 className='text-2xl text-primary-green py-2' >Access Code : 
-                    <span className='font-bold'> 999000999</span>
-                  </h3>
-
-                </div>
-              </div>
-            </div> */}
 
           <div className='py-2 md:py-4'>
               <h2 className='text-2xl text-primary-green'>User Permissions</h2>
@@ -107,35 +112,6 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
               
             </div>
 
-            {/* <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Collaboration</h2>
-
-              <div className=''>
-                <div>
-                  <h3 className='text-2xl text-primary-green py-2' >Share Your Project Access Code To Collaborate</h3>
-                  <h3 className='text-2xl text-primary-green py-2' >Access Code : 
-                    <span className='font-bold'> 999000999</span>
-                  </h3>
-
-                </div>
-              </div>
-            </div>
-
-            <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Pending Join Requests</h2>
-
-              
-              <div className=''>
-                <div>
-                  <h3 className='text-xl font-bold text-primary-green py-2' >Owner</h3>
-                  <ul className='list-disc list-inside'>
-                    <li>exampleuser@mail.com | Approve | Deny </li>
-                  </ul>
-                </div>
-
-              </div>
-            </div> */}
-
           <div className='py-2 md:py-4'>
               <h2 className='text-2xl text-primary-green'>Existing Members</h2>
 
@@ -158,28 +134,6 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
 
 
           <hr />
-          {/* <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Invite New Members to the Team</h2>
-
-              <div className='flex flex-col justify-around'>
-
-                <p className="text-md text-primary-green py-2">Enter Email of the Invitee:</p>
-
-                <input 
-                  type="text" name="invitee-email" id="invitee-email" 
-                  value={inviteeEmail} onChange={(e)=>setInviteeEmail(e.target.value)} 
-                  className="form_input"
-                />
-
-                <div className='py-2'>
-                  <button className='green_btn'>
-                    Invite
-                  </button>
-                </div>
-                
-
-              </div>
-            </div> */}
 
 
           <div className='py-2 md:py-4'>
@@ -188,24 +142,53 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
               <div className=''>
                 <div>
                   {/* <h3 className='text-2xl text-primary-green py-2' >Share Your Project Access Code To Collaborate</h3> */}
-                  <h3 className='text-2xl text-primary-green py-2' >Access Code : 
-                    <span className='font-bold'> {project.access_code ||  '#########'}</span>
+                  <h3 className='text-2xl text-primary-green py-2 flex whitespace-pre-wrap'>Access Code: <p className='font-bold flex'>{project.access_code ||  '#########'}</p>
+                    <Image src={"/assets/icons/copy-60.png"}
+                      alt="Click to copy"
+                      width={30}
+                      height={30}
+                      className="cursor-pointer"
+                      onClick={()=>copyToClipboard(project.access_code || "")} 
+                    />
                   </h3>
+
+                  
 
                 </div>
               </div>
             </div>
 
             <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Pending Join Requests</h2>
+              <h2 className='text-2xl text-primary-green pb-2'>Pending Join Requests</h2>
 
               
               <div className=''>
                 <div>
                   {/* <h3 className='text-xl font-bold text-primary-green py-2' >Owner</h3> */}
-                  <ul className='list-disc list-inside'>
+                  {/* <ul className='list-disc list-inside'>
                     <li>exampleuser@mail.com | Approve | Deny </li>
-                  </ul>
+                  </ul> */}
+
+                  {
+                    joinRequests &&
+
+                      joinRequests.map((joinrequest)=>{
+                        return (
+                          <PendingRequestTile joinrequest={joinrequest} project_id={params.project_id} setJoinRequests={setJoinRequests}/>
+                        )
+                      })
+
+                      // :
+
+                      // <div className='flex border-primary-green border rounded-xl w-2/3 p-3'>
+
+                      //   <div className='bg-primary-off-yellow'>
+                      //       <h3 className="font-bold">No Join Requests Found For This Project</h3>
+                      //   </div>
+                      // </div>
+                  }
+
+                  {/* <PendingRequestTile joinrequest={joinrequest}/> */}
                 </div>
 
               </div>

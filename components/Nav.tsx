@@ -40,6 +40,7 @@ const Nav = () => {
             />
         </Link>
         
+        
 
         {/* <ul className='flex items-center'> */}
             {/* <li>Features</li>
@@ -82,7 +83,7 @@ const Nav = () => {
                 alt="Profile"
                 width={37}
                 height={37}
-                className="object-contain" 
+                className="object-contain rounded-full" 
               />
             </Link>
 
@@ -118,7 +119,7 @@ const Nav = () => {
               alt="Profile"
               width={37}
               height={37}
-              className="object-contain"
+              className="object-contain rounded-full"
               onClick={()=>setToggleDropdown((prev)=>!prev)} 
             />
 

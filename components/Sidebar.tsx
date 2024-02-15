@@ -46,6 +46,7 @@ const Sidebar = ({project_id} : {project_id: string}) => {
                 </div>
             </Link>
 
+
             <Link href={`/project/${project_id}/settings`} className="w-1/4 md:w-max p-2 border rounded border-stone-400 hover:border-primary-green md:border-primary-green md:hover:border-white hover:cursor-pointer">
                 <div className=''>
                     <h1 className='text-xl md:text-2xl'>Setting</h1>

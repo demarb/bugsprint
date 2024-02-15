@@ -41,7 +41,7 @@ const ProjectsPage = () => {
   
 
   let hasProjects = projects.length>0 ? true : false
-  hasProjects = false
+  // hasProjects = false
 
   const handleJoinClick = async (e : React.SyntheticEvent) =>{
     e.preventDefault()
@@ -187,13 +187,13 @@ const ProjectsPage = () => {
           
           <div>
             <Link href="/project/new" className="flex">
-            <div className='border-2 rounded-md border-stone-400 p-8 mt-8 md:mt-16 w-full hover:border-primary-green hover:cursor-pointer'>
+            <div className='border-2 rounded-md border-stone-400 p-8 mt-8 w-full hover:border-primary-green hover:cursor-pointer'>
               <h1 className='text-3xl'>Create a New Project</h1>
               <h2 className='text-sm text-stone-500'>Start tracking bugs for your next project here...</h2>
             </div>
           </Link>
           <div className="flex">
-            <div className='border-2 rounded-md border-stone-400 p-8 mt-8 md:mt-16 w-full hover:border-primary-green'>
+            <div className='border-2 rounded-md border-stone-400 p-8 mt-8 w-full hover:border-primary-green'>
               
               <h1 className='text-3xl'>Join a Project</h1>
               <h2 className='text-sm text-stone-500'>Entire access code to join an existing project...</h2>
