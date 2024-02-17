@@ -111,7 +111,7 @@ export const createProjectQuery = async (project : ProjectTypePRIMARY) => {
     let access_code;
     do {
         access_code = Math.floor(100000000 + Math.random() * 900000000).toString().substring(0, 9);
-    } while (!(await checkUniqueAccessCodeQuery(access_code)));
+    } while ((await checkUniqueAccessCodeQuery(access_code)));
     
 
     const {owner_id, title, description, industry, additional_notes} = project
@@ -563,10 +563,10 @@ export const approveJoinRequestQuery = async (joinrequest_id: number) => {
 }
 
 // User project associations queries
-export const createUserProjectAssociationQuery = async (joinrequest : UserJoinRequestType, role: string) => {
+export const createUserProjectAssociationQuery = async (user_id: string, project_id: string, role: string) => {
     const client = await connectToDB()
 
-    const {user_id, project_id} = joinrequest
+    // const {user_id, project_id} = joinrequest
 
     const query = `INSERT INTO user_project_associations (user_id, project_id, role) VALUES 
                     ('${user_id}', '${project_id}', '${role}')`
@@ -576,12 +576,12 @@ export const createUserProjectAssociationQuery = async (joinrequest : UserJoinRe
         
         const response = await client.query(query)
 
-        // console.log(`QUERY RESPONSE: `)
-        // console.log(response)
-        // console.log(`QUERY RESPONSE ROWS: `)
-        // console.log(response.rows)
-        // console.log(`QUERY ROW COUNT: `)
-        // console.log(response.rowCount)
+        console.log(`QUERY RESPONSE: `)
+        console.log(response)
+        console.log(`QUERY RESPONSE ROWS: `)
+        console.log(response.rows)
+        console.log(`QUERY ROW COUNT: `)
+        console.log(response.rowCount)
 
         if(response.rowCount===1){
             return true

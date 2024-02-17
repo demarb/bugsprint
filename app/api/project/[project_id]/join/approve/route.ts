@@ -7,7 +7,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { project_id
     console.log("Inside api/project/[project_id]/join/approve PATCH request")
 
     const joinrequest: UserJoinRequestType  = await req.json()
-    const { joinrequest_id } = joinrequest 
+    const { joinrequest_id, user_id, project_id } = joinrequest 
     // console.log(params)
     console.log(`JoinRequest_Id ${joinrequest_id}`)
 
@@ -15,7 +15,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { project_id
         const isUpdated = await approveJoinRequestQuery(joinrequest_id);
 
         if(isUpdated){
-            await createUserProjectAssociationQuery(joinrequest, "Moderator")
+            await createUserProjectAssociationQuery(user_id, project_id, "Moderator")
         }
 
         return NextResponse.json(joinrequest_id, { status: 200 })
