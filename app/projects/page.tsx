@@ -1,7 +1,7 @@
 "use client"
 
 import ProjectTile from '@/components/ProjectTile'
-import { ProjectTypePRIMARY } from '@/utils/definitions'
+import { ProjectTypePRIMARY, ProjectTypeSECONDARY } from '@/utils/definitions'
 import {projectsFakeData} from '@/utils/placeholder-data'
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
@@ -10,7 +10,8 @@ import { useState, useEffect } from 'react'
 const ProjectsPage = () => {
 
   const {data: session} = useSession()
-  const [projects, setProjects] = useState<ProjectTypePRIMARY[]>([])
+  // const [projects, setProjects] = useState<ProjectTypePRIMARY[]>([])
+  const [projects, setProjects] = useState<ProjectTypeSECONDARY[]>([])
   const [accessCode, setAccessCode] = useState("")
   const [toggleJoinDropdown, setToggleJoinDropdown] = useState(false)
 

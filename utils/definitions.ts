@@ -20,6 +20,14 @@ export type ProjectTypePRIMARY = {
   access_code?: string;
 };
 
+export type ProjectTypeSECONDARY = {
+  project_id: string;
+  project_title: string;
+  role : string;
+  owner_image : string;
+  owner_username : string;
+};
+
 export type ProjectFormProps = {
     type: string;
     submitting: boolean;
@@ -33,8 +41,12 @@ export type ProjectFormProps = {
 // }
 
 
+// export type ProjectTileProps = {
+//   project: ProjectTypePRIMARY;
+// }
+
 export type ProjectTileProps = {
-  project: ProjectTypePRIMARY;
+  project: ProjectTypeSECONDARY;
 }
 
 // export type BugType = {

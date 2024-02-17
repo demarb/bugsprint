@@ -152,7 +152,13 @@ export const getUserProjectsQuery = async (user_id: string) => {
 
     
 
-    const query = `SELECT * FROM projects WHERE owner_id='${user_id}' `
+    // const query = `SELECT * FROM projects WHERE owner_id='${user_id}' `
+    const query = `SELECT projects.project_id, projects.title AS project_title, user_project_associations.role,
+                    users.image AS owner_image, users.username AS owner_username
+                        FROM user_project_associations
+                        JOIN projects ON user_project_associations.project_id = projects.project_id
+                        JOIN users ON projects.owner_id = users.user_id
+                    WHERE user_project_associations.user_id = '${user_id}';`
     console.log(`QUERY BEING EXECUTED: ${query}`)
 
     try {
@@ -274,6 +280,8 @@ export const deleteProjectQuery = async (project_id: string) => {
     }
 
 }
+
+
 
 
 // Bug related queries
