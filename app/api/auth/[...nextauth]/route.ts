@@ -14,8 +14,16 @@ const handler = NextAuth({
 
     callbacks: {
         // called whenever a session is checked
-        async session({ session, user, token }) {
+        async session({ session, user, token, trigger, newSession }) {
             console.log("Session callback initiated")
+            // console.log(session)
+
+            if(token?.role){
+                //@ts-ignore
+                session.user = { ...session.user, role: token.role };
+            }
+            // console.log("Session callback after update with project_id")
+            // console.log(session)
             
 
             if(session.user && session.user){
@@ -32,7 +40,31 @@ const handler = NextAuth({
             // console.log("Version of session sent after callback initiated: ")
             // console.log(session)
 
+            // console.log(trigger)
+            // if(trigger==="update" && session){
+            //     //@ts-ignore
+            //     session.user.project_id = newSession.user.project_id
+            // }
+
+            // console.log(session)
+
             return session
+        },
+
+        async jwt({ token, trigger, session, user }) {
+            // console.log("Token: ")
+            // console.log(token)
+            // console.log("Trigger: ")
+            // console.log(trigger)
+            // console.log("Session: ")
+            // console.log(session)
+            // console.log("User: ")
+            // console.log(user)
+            if (trigger === "update" && session) {
+              return { ...token, ...session?.user };
+            }
+      
+            return { ...token };
         },
 
         async signIn({ profile }) {

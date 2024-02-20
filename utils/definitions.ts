@@ -125,3 +125,12 @@ export type UserJoinRequestType = {
   username: string;
   image: string;
 }
+
+export type ProjectAssociationType = {
+  id: number;
+  user_id: string;
+  project_id: string;
+  role: "Owner" | "Moderator"| "Read-Write" | "Read-Only";
+  created_at: string;
+
+}

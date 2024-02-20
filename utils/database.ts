@@ -498,7 +498,8 @@ export const getAllProjectJoinRequestsQuery = async (project_id: string) => {
                     FROM users
                     JOIN joinrequests ON users.user_id = joinrequests.user_id
                     WHERE joinrequests.project_id = '${project_id}'
-                    AND joinrequests.status = 'Pending';`
+                    AND joinrequests.status = 'Pending';
+                    `
     console.log(`QUERY BEING EXECUTED: ${query}`)
 
     try {
@@ -598,6 +599,30 @@ export const createUserProjectAssociationQuery = async (user_id: string, project
 
     } catch (error) {
         console.log("Error in createUserProjectAssociationQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+export const getProjectAsssociationQuery = async (project_id: string, user_id: string) => {
+    const client = await connectToDB()
+
+    const query = `SELECT * FROM user_project_associations WHERE project_id='${project_id}' AND user_id= '${user_id}' `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            return response.rows[0]
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getProjectAsssociationQuery:")
         console.log(error)
     } finally{
         closeDBConnnection(client)
