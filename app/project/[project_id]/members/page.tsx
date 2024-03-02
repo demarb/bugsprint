@@ -5,8 +5,11 @@ import MemberCard from '@/components/MemberCard'
 import PendingRequestTile from '@/components/PendingRequestTile'
 import { ProjectTypePRIMARY, UserJoinRequestType } from '@/utils/definitions'
 import { useState, useEffect } from 'react'
+import { useSession } from "next-auth/react"
 
 const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) => {
+
+  const {data: session } = useSession()
 
     const [project, setProject] = useState<ProjectTypePRIMARY>({
       title: "",
@@ -18,13 +21,9 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
 
     const [joinRequests, setJoinRequests] = useState<UserJoinRequestType[]>([])
 
-    // const filterUpdatedJoinRequest = (joinrequest_id: number) =>{
-      // setJoinRequests((prev)=>{
-      //   return(
-      //     prev.filter((joinrequest)=>joinrequest.joinrequest_id!=joinrequest_id)
-      //   )
-      // })
-    // }
+    //@ts-ignore
+    const userProjectRole = session?.user.role
+    console.log(`This is the NEW R@LE from /project/[project_id]/members: ${userProjectRole}`)
 
     
 

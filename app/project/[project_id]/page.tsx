@@ -9,9 +9,11 @@ import { BugTypePRIMARY, ProjectAssociationType } from '@/utils/definitions'
 
 const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
   const {data: session, update} = useSession()
-  console.log("This is new client session:")
-  console.log(session)
+  // console.log("This is new client session:")
+  // console.log(session)
   const [bugs, setBugs] = useState<BugTypePRIMARY[]>([])
+  
+  
 
   // console.log(projectsFakeData)
 
@@ -28,40 +30,44 @@ const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
 
   }, [])
 
-  useEffect(() => {
+  //@ts-ignore
+  const userProjectRole = session?.user.role
+  console.log(`This is the NEW R@LE from /project/[project_id]: ${userProjectRole}`)
+  
+  // useEffect(() => {
 
-    const { project_id } = params
-    //@ts-ignore
-    const user_id =  session?.user.id  
+  //   const { project_id } = params
+  //   //@ts-ignore
+  //   const user_id =  session?.user.id  
 
-    const fetchProjectAssociation= async () => {
-      const response = await fetch(`/api/user/${user_id}/project/${project_id}/association`)
-      const data: ProjectAssociationType = await response.json()
-      return data
-    }
+  //   const fetchProjectAssociation= async () => {
+  //     const response = await fetch(`/api/user/${user_id}/project/${project_id}/association`)
+  //     const data: ProjectAssociationType = await response.json()
+  //     return data
+  //   }
 
-    const updateSessionRole = async () => {
-      const association = await fetchProjectAssociation()
-    try {
+  //   const updateSessionRole = async () => {
+  //     const association = await fetchProjectAssociation()
+  //   try {
 
-      const updatedUser = {
-        ...session,
-        user: {
-          ...session?.user,
-          role: association.role,
-        },
-      };
+  //     const updatedUser = {
+  //       ...session,
+  //       user: {
+  //         ...session?.user,
+  //         role: association.role,
+  //       },
+  //     };
 
-      await update(updatedUser);
+  //     await update(updatedUser);
 
-    } catch (err) {
-      console.log("There was an error with updating project association role.", err);
-    }
-    }
+  //   } catch (err) {
+  //     console.log("There was an error with updating project association role.", err);
+  //   }
+  //   }
     
-    updateSessionRole()
+  //   updateSessionRole()
 
-  }, [session])
+  // }, [session])
 
 
   

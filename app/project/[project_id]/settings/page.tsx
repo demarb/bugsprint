@@ -13,6 +13,10 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
   const router = useRouter()
   const {data: session } = useSession()
 
+  //@ts-ignore
+  const userProjectRole = session?.user.role
+  console.log(`This is the NEW R@LE from /project/[project_id]/settings: ${userProjectRole}`)
+
   const [project, setProject] = useState<ProjectTypePRIMARY>({
     title: "",
     description : "",
@@ -147,29 +151,41 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
 
           <hr />
 
-          <div className='py-2 md:py-4'>
-              <h2 className='text-2xl text-primary-green'>Delete Project</h2>
+          
+              
 
-              <div className='flex flex-col justify-around'>
+              {
+                (userProjectRole === "Owner") &&
 
-                <p className="text-md text-red-700 py-2">
-                  Your Project Cannot Be Recovered After Deletion. All project information, settings, bugs and members and their respective permission will be removed immediately.
-                </p>
-                <p className="text-md text-red-700">Type Project ID to confirm delete:</p>
-                <p className="text-md text-red-700 pb-2 font-bold">{project.project_id}</p>
+                <div className='py-2 md:py-4'>
 
-                <input 
-                  type="text" name="project-name-confirmed" id="project-name-confirmed" 
-                  value={confirmedProjectName} onChange={(e)=>setConfirmedProjectName(e.target.value)} 
-                  className="form_input"
-                />
+                  <h2 className='text-2xl text-primary-green'>Delete Project</h2>
 
-                <button onClick={deleteProject}  disabled={!deleteMatches} className='disabled_delete_btn delete_btn'>
-                  {deleting ? "Deleting Project" : "Delete Project"}
-                </button>
+                  <div className='flex flex-col justify-around'>
 
-              </div>
-            </div>
+                    <p className="text-md text-red-700 py-2">
+                      Your Project Cannot Be Recovered After Deletion. All project information, settings, bugs and members and their respective permission will be removed immediately.
+                    </p>
+                    <p className="text-md text-red-700">Type Project ID to confirm delete:</p>
+                    <p className="text-md text-red-700 pb-2 font-bold">{project.project_id}</p>
+
+                    <input 
+                      type="text" name="project-name-confirmed" id="project-name-confirmed" 
+                      value={confirmedProjectName} onChange={(e)=>setConfirmedProjectName(e.target.value)} 
+                      className="form_input"
+                    />
+
+                    <button onClick={deleteProject}  disabled={!deleteMatches} className='disabled_delete_btn delete_btn'>
+                      {deleting ? "Deleting Project" : "Delete Project"}
+                    </button>
+
+                  </div>
+
+                </div>
+
+
+              }
+              
         </div>       
       </div>
       
