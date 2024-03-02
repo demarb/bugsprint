@@ -1,20 +1,46 @@
 "use client"
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BugFormProps, ProjectTypePRIMARY } from "@/utils/definitions"
 
 
-const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) => {
+const BugForm = ({type, submitting, bug, setBug, handleSubmit, userProjectRole} : BugFormProps) => {
 
     const [isFormEditable, setFormEditable] = useState(false);
 
     const maxDescriptionLength = 2000
     const maxEnvironmentLength = 1000
 
+    useEffect(()=>{
+      //Disable form if user role is Read-Only
+      const disableForm = () =>{
+        let form = document.querySelector('#bugForm')  as HTMLFormElement
+        
+        if (form){
+          
+          const formElements = form.querySelectorAll('input, textarea, select') as NodeListOf<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
+
+          if (userProjectRole === 'Read-Only'){
+            formElements.forEach((element) => {
+              element.disabled = true;
+            })
+          }else{
+            formElements.forEach((element) => {
+              element.disabled = false;
+            })
+          }
+                
+        }
+      }
+      
+      disableForm();
+
+    }, [userProjectRole])
+
 
   return (
-    <form className="flex flex-col pt-2 md:pt-4" onFocus={() => setFormEditable(true)} onBlur={() => setFormEditable(false)}>
+    <form id='bugForm' className="flex flex-col pt-2 md:pt-4" onFocus={() => setFormEditable(true)} onBlur={() => setFormEditable(false)}>
         <label className="text-lg py-2">Title
           <br className=""/>
           <input 
@@ -126,20 +152,26 @@ const BugForm = ({type, submitting, bug, setBug, handleSubmit} : BugFormProps) =
           </button> */}
         {/* </Link> */}
 
-        <div className="w-full lg:w-4/5 flex">
-                <button type="button"
-                    disabled={submitting}
-                    //   key={}
-                    onClick={handleSubmit}
-                    className="green_btn ml-auto mt-4"
-                >
-                    {
-                        type === "Create" ? 
-                            (submitting ? "Submitting Bug" : "Submit") 
-                            : (submitting ? "Updating Bug" : "Update")
-                    }
-                </button>
-            </div>
+        {
+          (userProjectRole !== "Read-Only") &&
+
+          <div className="w-full lg:w-4/5 flex">
+              <button type="button"
+                  disabled={submitting}
+                  //   key={}
+                  onClick={handleSubmit}
+                  className="green_btn ml-auto mt-4"
+              >
+                  {
+                      type === "Create" ? 
+                          (submitting ? "Submitting Bug" : "Submit") 
+                          : (submitting ? "Updating Bug" : "Update")
+                  }
+              </button>
+          </div>
+        }
+
+        
 
       </form>
   )

@@ -102,6 +102,7 @@ export type BugFormProps = {
   bug: BugTypePRIMARY;
   setBug: React.Dispatch<React.SetStateAction<BugTypePRIMARY>>; 
   handleSubmit: React.MouseEventHandler<HTMLButtonElement>;
+  userProjectRole: string | undefined;
 }
 
 export interface ProviderProps {

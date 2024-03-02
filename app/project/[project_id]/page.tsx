@@ -82,13 +82,18 @@ const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
           <h2 className='text-3xl text-primary-green'>Bugs</h2>
           <div className='flex'>
 
-            <Link href={`/project/${params.project_id}/bug/new`}>
-              <button type="button"
-              //   key={}
-              //   onClick={}
-                className="green_btn mx-2">Submit New Bug
-              </button>
-            </Link>
+            {
+              (userProjectRole === "Read-Only") &&
+              <Link href={`/project/${params.project_id}/bug/new`}>
+                <button type="button"
+                //   key={}
+                //   onClick={}
+                  className="green_btn mx-2">Submit New Bug
+                </button>
+              </Link>
+
+            }
+            
             
           </div>
         </div>

@@ -198,7 +198,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
           </div>       
         </div>
         :
-        <NotAuthorized/>
+        <NotAuthorized message='Modify Project Settings'/>
       }
 
       {/* <div className=''>

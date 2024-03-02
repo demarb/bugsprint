@@ -5,11 +5,15 @@ import BugForm from '@/components/BugForm'
 import { BugTypePRIMARY } from "@/utils/definitions"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
+import NotAuthorized from "@/components/NotAuthorized"
 
 const NewBugPage = ({ params }: { params: { "project_id": string } }) => {
 
   const router = useRouter()
   const {data: session } = useSession()
+  //@ts-ignore
+  const userProjectRole = session?.user.role
+  console.log(`This is the NEW R@LE from /project/[project_id]/members: ${userProjectRole}`)
 
   const [bug, setBug] = useState<BugTypePRIMARY>({
     title: "",
@@ -72,22 +76,31 @@ const NewBugPage = ({ params }: { params: { "project_id": string } }) => {
   return (
     <section className='mx-auto py-2'>
 
-      <div className=''>
-        <div className='flex justify-between'>
-          <h2 className='text-3xl text-primary-green'>Report a Bug</h2>
-          
-        </div> 
+      {
+        userProjectRole === 'Read-Only'
+        ?
+          <NotAuthorized message="Report New Bugs"/>
+        :
+          <div className=''>
+            <div className='flex justify-between'>
+              <h2 className='text-3xl text-primary-green'>Report a Bug</h2>
+              
+            </div> 
 
-        <div className=''>
-        <BugForm 
-          type={"Create"} 
-          submitting={submitting} 
-          bug={bug} 
-          setBug={setBug} 
-          handleSubmit={createBug}
-        />
-        </div>      
-      </div>
+            <div className=''>
+            <BugForm 
+              type={"Create"} 
+              submitting={submitting} 
+              bug={bug} 
+              setBug={setBug} 
+              handleSubmit={createBug}
+              userProjectRole={userProjectRole}
+            />
+            </div>      
+          </div>
+      }
+
+      
       
     </section>
   )

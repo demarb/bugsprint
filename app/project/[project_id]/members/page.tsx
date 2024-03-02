@@ -200,7 +200,7 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
           </div>       
         </div>
         :
-        <NotAuthorized/>
+        <NotAuthorized message="Modify Member Permissions"/>
       }
 
       

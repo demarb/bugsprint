@@ -12,6 +12,10 @@ const BugPage = ({ params }: { params: { "project_id": string, "bug_id": string 
   const bug_id = params.bug_id
 
   const router = useRouter()
+  const {data: session } = useSession()
+  //@ts-ignore
+  const userProjectRole = session?.user.role
+  console.log(`This is the NEW R@LE from /project/[project_id]/members: ${userProjectRole}`)
 
   const [bug, setBug] = useState<BugTypePRIMARY>({
     title: "",
@@ -123,15 +127,21 @@ const deleteBug = async (e : React.SyntheticEvent) => {
               bug={bug} 
               setBug={setBug} 
               handleSubmit={updateBug}
+              userProjectRole={userProjectRole}
             />
             
             </div>
 
-            <div className="w-full lg:w-4/5 flex">
-              <button onClick={deleteBug} className='delete_btn ml-auto'>
-                {deleting ? "Deleting Bug" : "Delete Bug"}
-              </button>
-            </div>
+            {
+              (userProjectRole !== "Read-Only") &&
+
+              <div className="w-full lg:w-4/5 flex">
+                <button onClick={deleteBug} className='delete_btn ml-auto'>
+                  {deleting ? "Deleting Bug" : "Delete Bug"}
+                </button>
+              </div>
+            }
+            
             
         </div>       
       </div>
