@@ -67,9 +67,9 @@ const Nav = () => {
             {`Notifications (${0})`}
             </Link>
 
-            <Link href="/chat" className="green_btn">
+            {/* <Link href="/chat" className="green_btn">
             {`Chat (${0})`}
-            </Link>
+            </Link> */}
 
             <button className="green_btn" type="button" onClick={()=>{
               // setToggleDropdown(false);
@@ -149,13 +149,13 @@ const Nav = () => {
                   {`Notifications (${0})`}
                 </Link>
                 
-                <Link
+                {/* <Link
                   href="/chat"
                   className="dropdown_link"
                   onClick={()=>setToggleDropdown(false)}
                 >
                   {`Chat (${0})`}
-                </Link>
+                </Link> */}
 
                 <button className="mt-5 w-full inverted_green_btn" type="button" onClick={()=>{
                   setToggleDropdown(false);

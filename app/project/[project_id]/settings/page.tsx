@@ -7,6 +7,7 @@ import { ProjectTypePRIMARY } from "@/utils/definitions"
 import ProjectForm from '@/components/ProjectForm'
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
+import NotAuthorized from '@/components/NotAuthorized'
 
 const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) => {
 
@@ -119,9 +120,88 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
 
 
   return (
+
+    
+
+    
     <section className='mx-auto py-2'>
 
-      <div className=''>
+      {
+        (userProjectRole === "Owner" || userProjectRole === "Moderator")
+
+        ?
+        <div className=''>
+          <div className='flex flex-col justify-between'>
+            <h2 className='text-4xl text-primary-green'>Project Settings</h2>
+
+            <div>
+              <div className='py-2 md:py-4'>
+                <h2 className='text-2xl text-primary-green'>General Project Information</h2>
+
+                <div>
+                  <h3 className='text-lg font-bold text-primary-green'>Project ID: 
+                    <span className='text-black'>{` ${project.project_id}`}</span>
+                  </h3>
+
+                  <ProjectForm type={"Update"} submitting={submitting} project={project} setProject={setProject} handleSubmit={updateProject}/>
+
+                  <button className='my-2 bg-primary-green border-primary-green border-2 text-white px-2 py-1 rounded-lg hover:bg-inherit hover:text-stone-800 w-max'>
+                    Save
+                  </button>
+                  
+                </div>
+              </div>
+
+              <hr />
+
+              <ProjectConfiguration project_id={params.project_id}/>
+
+            </div>
+
+            <hr />
+
+            
+                
+
+                {
+                  (userProjectRole === "Owner") &&
+
+                  <div className='py-2 md:py-4'>
+
+                    <h2 className='text-2xl text-primary-green'>Delete Project</h2>
+
+                    <div className='flex flex-col justify-around'>
+
+                      <p className="text-md text-red-700 py-2">
+                        Your Project Cannot Be Recovered After Deletion. All project information, settings, bugs and members and their respective permission will be removed immediately.
+                      </p>
+                      <p className="text-md text-red-700">Type Project ID to confirm delete:</p>
+                      <p className="text-md text-red-700 pb-2 font-bold">{project.project_id}</p>
+
+                      <input 
+                        type="text" name="project-name-confirmed" id="project-name-confirmed" 
+                        value={confirmedProjectName} onChange={(e)=>setConfirmedProjectName(e.target.value)} 
+                        className="form_input"
+                      />
+
+                      <button onClick={deleteProject}  disabled={!deleteMatches} className='disabled_delete_btn delete_btn'>
+                        {deleting ? "Deleting Project" : "Delete Project"}
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                }
+                
+          </div>       
+        </div>
+        :
+        <NotAuthorized/>
+      }
+
+      {/* <div className=''>
         <div className='flex flex-col justify-between'>
           <h2 className='text-4xl text-primary-green'>Project Settings</h2>
 
@@ -187,7 +267,7 @@ const ProjectSettingsPage = ({ params }: { params: { "project_id": string } }) =
               }
               
         </div>       
-      </div>
+      </div> */}
       
     </section>
   )
