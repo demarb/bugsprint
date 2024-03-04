@@ -1,9 +1,10 @@
 import { createUserQuery, getUserQuery, userExistsQuery } from "@/utils/database";
 import NextAuth from "next-auth"
+import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
     providers: [
         GoogleProvider({
             // Added ternary to handle type error, that seems to happen if we dont have a fallback string value
@@ -98,6 +99,10 @@ const handler = NextAuth({
 
     
     }
-})
+};
+
+ const handler = NextAuth(authOptions);
+
+// const handler = NextAuth()
 
 export { handler as GET, handler as POST }
