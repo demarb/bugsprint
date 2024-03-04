@@ -2,6 +2,9 @@ import { getAllProjectJoinRequestsQuery } from "@/utils/database";
 import { projectsFakeData } from "@/utils/placeholder-data";
 import { NextRequest, NextResponse } from "next/server";
 
+// This API route is used to:
+// 1. Get all pending join requests for a project
+
 export const GET = async (req: NextRequest, { params }: { params: { project_id: string } }) => {
 
     console.log("Inside api/project/[project_id]/join/ GET request")

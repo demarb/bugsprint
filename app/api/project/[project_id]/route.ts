@@ -2,11 +2,15 @@ import { getProjectQuery, updateProjectQuery, deleteProjectQuery } from "@/utils
 import { ProjectTypePRIMARY } from "@/utils/definitions";
 import { NextRequest, NextResponse } from "next/server";
 
+// This API route is used to:
+// 1. Fetch project details using project id
+// 2. Update project details using a project id.
+// 3. Delete a project using a project id.
+
 // Get Project Details
 export const GET = async (req: NextRequest, { params }: { params: { project_id: string } }) => {
 
     console.log("Inside api/project/[project_id] GET request")
-
     const { project_id } = params 
     console.log(params)
     console.log(`ProjectId ${project_id}`)
@@ -23,8 +27,8 @@ export const GET = async (req: NextRequest, { params }: { params: { project_id: 
 
 // Update Project Details
 export const PATCH = async (req: NextRequest, { params }: { params: { project_id: string } }) => {
+    
     console.log("Inside api/project/[project_id] PATCH request")
-
     const project: ProjectTypePRIMARY  = await req.json()
     const { project_id } = params 
     console.log(params)
@@ -41,10 +45,10 @@ export const PATCH = async (req: NextRequest, { params }: { params: { project_id
 
 }
 
-// Delete Project
+// Delete Project 
 export const DELETE = async (req: NextRequest, { params }: { params: { project_id: string } }) => {
+    
     console.log("Inside api/project/[project_id] DELETE request")
-
     const { project_id } = params 
     console.log(params)
     console.log(`ProjectId ${project_id}`)
@@ -52,7 +56,6 @@ export const DELETE = async (req: NextRequest, { params }: { params: { project_i
     try {
         await deleteProjectQuery(project_id);
 
-        
         return NextResponse.json("Project successfully deleted", { status: 200 })
 
     } catch (error) {
@@ -60,19 +63,3 @@ export const DELETE = async (req: NextRequest, { params }: { params: { project_i
     }
 
 }
-
-//DELETE (delete)
-
-// export const DELETE = async (request, { params }) => {
-//     try {
-//         await connectToDB()
-
-//         // await Prompt.findByIdAndRemove(params.id)
-//         await Prompt.findByIdAndDelete(params.id)
-
-//         return new Response("Prompt deleted successfully", { status: 200 })
-
-//     } catch (error) {
-//         return new Response("Failed to delete the prompt", { status: 500 })
-//     }
-// }

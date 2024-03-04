@@ -1,13 +1,13 @@
 import { checkUniqueAccessCodeQuery, existingJoinRequestExistsQuery, createJoinRequestQuery } from "@/utils/database";
-// import {  } from "@/utils/definitions";
 import { NextRequest, NextResponse } from "next/server";
+
+// This API route is used to:
+// 1. Create a new request to join a project
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
 
     console.log("Inside api/project/join POST request")
-
     const joinrequest = await req.json()
-
     console.log("joinrequest received in api route:")
     console.log(joinrequest)
     

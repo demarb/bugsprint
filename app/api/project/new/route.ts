@@ -2,12 +2,13 @@ import { createProjectQuery, createUserProjectAssociationQuery } from "@/utils/d
 import { NextRequest, NextResponse } from "next/server";
 import { ProjectTypePRIMARY } from "@/utils/definitions"
 
+// This API route is used to:
+// 1. Create a new project.
+
 export const POST = async (req: NextRequest, res: NextResponse) => {
 
     console.log("Inside api/project/new POST request")
-
     const project: ProjectTypePRIMARY  = await req.json()
-
     console.log("project received in api route:")
     console.log(project)
     const {owner_id} = project

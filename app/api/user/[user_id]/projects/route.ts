@@ -2,6 +2,9 @@ import { getUserProjectsQuery } from "@/utils/database";
 import { projectsFakeData } from "@/utils/placeholder-data";
 import { NextRequest, NextResponse } from "next/server";
 
+// This API route is used to:
+// 1. Fetch all projects the user has access to - both projects they own and projects they have been added to
+
 export const GET = async (req: NextRequest, { params }: { params: { user_id: string } }) => {
 
     console.log("Inside api/user/[user_id]/projects/ GET request")
