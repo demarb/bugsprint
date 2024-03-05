@@ -24,18 +24,13 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         if (session) {
             console.log("Session exists")
             const isCreated = await createProjectQuery(project);
+            //A database action function is triggered automatically to create a user project association.
+
             return NextResponse.json(project, { status: 201 })
         } else {
             console.log("Session does not exist")
             return new NextResponse("You are not signed in.", { status: 401 })
         }
-
-        // if(isCreated){
-        //     await createUserProjectAssociationQuery(owner_id || "", "s", "Owner")
-        // }
-
-        // return new NextResponse(JSON.stringify(project, { status: 201 }))
-        
 
     } catch (error) {
         return new NextResponse("Failed to create a new project.", { status: 500 }) // server error

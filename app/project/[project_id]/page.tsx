@@ -83,7 +83,7 @@ const ProjectPage = ({ params }: { params: { "project_id": string } }) => {
           <div className='flex'>
 
             {
-              (userProjectRole === "Read-Only") &&
+              (userProjectRole !== "Read-Only") &&
               <Link href={`/project/${params.project_id}/bug/new`}>
                 <button type="button"
                 //   key={}
