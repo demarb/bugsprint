@@ -1,7 +1,7 @@
 import { getUserProjectsQuery } from "@/utils/database";
 import { projectsFakeData } from "@/utils/placeholder-data";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from 'next-auth'
 
 
@@ -21,10 +21,15 @@ export const GET = async (req: NextRequest, { params }: { params: { user_id: str
     console.log(`Userid ${user_id}`)
 
     try {
-        const projects = await getUserProjectsQuery(user_id);
 
-        return NextResponse.json(projects, { status: 200 })
-
+        if (session) {
+            console.log("Session exists")
+            const projects = await getUserProjectsQuery(user_id);
+            return NextResponse.json(projects, { status: 200 })
+        } else {
+            console.log("Session does not exist")
+            return new NextResponse("You are not signed in.", { status: 401 })
+        }
     } catch (error) {
         return new NextResponse("Failed to fetch all projects that user has access to.", { status: 500 })
     }

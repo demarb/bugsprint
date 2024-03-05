@@ -1,6 +1,8 @@
 import { createProjectQuery, createUserProjectAssociationQuery } from "@/utils/database";
 import { NextRequest, NextResponse } from "next/server";
 import { ProjectTypePRIMARY } from "@/utils/definitions"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 // This API route is used to:
 // 1. Create a new project.
@@ -13,16 +15,27 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     console.log(project)
     const {owner_id} = project
     
+    const session = await getServerSession(authOptions)
+    console.log("Session from getServerSession")
+    console.log(session)
 
     try {
-        const isCreated = await createProjectQuery(project);
-        
+    
+        if (session) {
+            console.log("Session exists")
+            const isCreated = await createProjectQuery(project);
+            return NextResponse.json(project, { status: 201 })
+        } else {
+            console.log("Session does not exist")
+            return new NextResponse("You are not signed in.", { status: 401 })
+        }
+
         // if(isCreated){
         //     await createUserProjectAssociationQuery(owner_id || "", "s", "Owner")
         // }
 
         // return new NextResponse(JSON.stringify(project, { status: 201 }))
-        return NextResponse.json(project, { status: 201 })
+        
 
     } catch (error) {
         return new NextResponse("Failed to create a new project.", { status: 500 }) // server error

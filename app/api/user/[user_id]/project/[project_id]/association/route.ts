@@ -1,5 +1,7 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getProjectAsssociationQuery } from "@/utils/database";
 import { BugTypePRIMARY } from "@/utils/definitions";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // This API route is used to:
@@ -14,11 +16,20 @@ export const GET = async (req: NextRequest, { params }: { params: { project_id: 
     console.log(`ProjectId ${project_id}`)
     console.log(`UserId ${user_id}`)
 
+    const session = await getServerSession(authOptions)
+    console.log("Session from getServerSession")
+    console.log(session)
+
     try {
-        const association = await getProjectAsssociationQuery(project_id, user_id);
 
-        return NextResponse.json(association, { status: 200 })
-
+        if (session) {
+            console.log("Session exists")
+            const association = await getProjectAsssociationQuery(project_id, user_id);
+            return NextResponse.json(association, { status: 200 })
+        } else {
+            console.log("Session does not exist")
+            return new NextResponse("You are not signed in.", { status: 401 })
+        }
     } catch (error) {
         return new NextResponse("Failed to project association details.", { status: 500 })
     }
