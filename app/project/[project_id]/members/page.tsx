@@ -7,6 +7,7 @@ import { ProjectTypePRIMARY, UserJoinRequestType } from '@/utils/definitions'
 import { useState, useEffect } from 'react'
 import { useSession } from "next-auth/react"
 import NotAuthorized from "@/components/NotAuthorized"
+import ExistingMembers from "@/components/ExistingMembers"
 
 const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) => {
 
@@ -120,11 +121,13 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
                 <h2 className='text-2xl text-primary-green'>Existing Members</h2>
 
                 {
-                  <div>
-                    {/* Map over members here */}
-                    <MemberCard name={"Jon Doe"} email={"jondoe@gmail.com"} permission={"owner"}/>
-                    <MemberCard name={"Jenny Byron"} email={"jbyron@gmail.com"} permission={"readwrite"}/>
-                  </div>
+
+                  <ExistingMembers project_id={params.project_id}/>
+                  // <div>
+                  //   {/* Map over members here */}
+                  //   <MemberCard name={"Jon Doe"} email={"jondoe@gmail.com"} permission={"owner"}/>
+                  //   <MemberCard name={"Jenny Byron"} email={"jbyron@gmail.com"} permission={"readwrite"}/>
+                  // </div>
                 }
 
                   <div className='py-2'>

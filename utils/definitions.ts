@@ -135,3 +135,12 @@ export type ProjectAssociationType = {
   created_at: string;
 
 }
+
+export type MemberType = {
+  association_id: number;
+  user_id: string;
+  email: string;
+  username: string;
+  image: string;		
+  role: string
+}

@@ -1,16 +1,32 @@
 "use client"
 
+import { MemberType } from '@/utils/definitions'
 import { useState } from 'react'
+import Image from "next/image"
 
-const MemberCard = ({name, email, permission}: {name: string, email: string, permission: string}) => {
 
-    const [userPermission, setUserPermission] = useState(permission)
+const MemberCard = ({member}: {member: MemberType}) => {
+
+    
+
+    const {association_id, user_id, email, username, role, image} = member
+    const [userPermission, setUserPermission] = useState(role)
 
   return (
-    <div className='flex flex-col border rounded-md p-2 my-2 w-full lg:w-4/5'>
+    <div className='flex flex-col border bg-primary-green rounded-md p-2 my-2 w-full lg:w-2/5'>
 
-        <p className="text-md text-primary-green py-2">{name}</p>
-        <p className="text-md text-primary-green">{email}</p>
+        <div className='flex justify-between items-center py-2'>
+
+        
+            <Image src={image || ""}
+                alt="Member Profile"
+                width={30}
+                height={30}
+                className="object-contain rounded-full"
+                title={username}
+            />
+            <p className="text-md text-white">{email}</p>
+        </div>
 
         {/* <input 
             type="text" name="invitee-email" id="invitee-email" 
@@ -19,18 +35,18 @@ const MemberCard = ({name, email, permission}: {name: string, email: string, per
         /> */}
 
         {
-            permission==="owner" ? 
+            userPermission==="Owner" ? 
 
-            <select name="permission-select" id="permission-select" className='form_input' disabled value={userPermission} onChange={(e)=>{setUserPermission(e.target.value)}}>
-                <option value="owner">Owner</option>
+            <select name="permission-select" id="permission-select" className='w-full border rounded-md text-base p-2' disabled value={userPermission} onChange={(e)=>{setUserPermission(e.target.value)}}>
+                <option value="Owner">Owner</option>
             </select>
 
             :
 
-            <select name="user-permission" id="user-permission" className='form_input' value={userPermission} onChange={(e)=>{setUserPermission(e.target.value)}}>
-                <option value="moderator">Moderator</option>
-                <option value="readwrite">Read/Write</option>
-                <option value="readonly">Read Only</option>
+            <select name="user-permission" id="user-permission" className='w-full border rounded-md text-base p-2' value={userPermission} onChange={(e)=>{setUserPermission(e.target.value)}}>
+                <option value="Moderator">Moderator</option>
+                <option value="Read-Write">Read-Write</option>
+                <option value="Read-Only">Read-Only</option>
             </select>
 
         }       

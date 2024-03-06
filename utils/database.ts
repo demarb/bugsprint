@@ -571,6 +571,38 @@ export const approveJoinRequestQuery = async (joinrequest_id: number) => {
 
 }
 
+//Members
+export const getAllMembersQuery = async (project_id: string) => {
+    const client = await connectToDB()
+
+    
+
+    const query = `SELECT users.user_id, users.email, users.username, users.image, association.id AS association_id, association.role
+                    FROM users
+                    JOIN user_project_associations association ON users.user_id = association.user_id
+                    WHERE association.project_id = '${project_id}'`
+
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rows.length>0){
+            return response.rows
+        }
+        
+
+    } catch (error) {
+        console.log("Error in getAllMembersQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
+
+
 // User project associations queries
 export const createUserProjectAssociationQuery = async (user_id: string, project_id: string, role: string) => {
     const client = await connectToDB()
