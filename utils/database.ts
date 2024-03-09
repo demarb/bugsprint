@@ -662,6 +662,32 @@ export const getProjectAsssociationQuery = async (project_id: string, user_id: s
 
 }
 
+export const updateAssociationQuery = async (association_id: number, role: string) => {
+    const client = await connectToDB()
+
+    // const { title, description, status, priority, severity, environment, is_user_reported } = bug
+
+    const query = `UPDATE user_project_associations 
+        SET role='${role}' WHERE id=${association_id} `
+    console.log(`QUERY BEING EXECUTED: ${query}`)
+
+    try {
+        
+        const response = await client.query(query)
+
+        if(response.rowCount===1){
+            return true
+        }
+        
+
+    } catch (error) {
+        console.log("Error in updateBugQuery:")
+        console.log(error)
+    } finally{
+        closeDBConnnection(client)
+    }
+
+}
 
 //Other utility functions to query database
 export const checkUniqueAccessCodeQuery = async (access_code: string) => {

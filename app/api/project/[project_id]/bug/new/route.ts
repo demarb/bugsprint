@@ -24,7 +24,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         if (session) {
             console.log("Session exists")
             //@ts-ignore
-            if(session.user?.role !== "Owner" || session.user?.role === "Moderator" || session.user?.role === "Read-Write"){
+            if(session.user?.role === "Owner" || session.user?.role === "Moderator" || session.user?.role === "Read-Write"){
                 await createBugQuery(bug);
                 return NextResponse.json(bug, { status: 201 })
 

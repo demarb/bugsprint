@@ -55,7 +55,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { project_id
         if (session) {
             console.log("Session exists")
             //@ts-ignore
-            if(session.user?.role !== "Owner" || session.user?.role === "Moderator" || session.user?.role === "Read-Write"){
+            if(session.user?.role === "Owner" || session.user?.role === "Moderator" || session.user?.role === "Read-Write"){
                 const updatedBug = await updateBugQuery(bug, bug_id);
                 return NextResponse.json(bug, { status: 200 })
 
@@ -90,7 +90,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { project_i
         if (session) {
             console.log("Session exists")
             //@ts-ignore
-            if(session.user?.role !== "Owner" || session.user?.role === "Moderator" || session.user?.role === "Read-Write"){
+            if(session.user?.role === "Owner" || session.user?.role === "Moderator" || session.user?.role === "Read-Write"){
                 await deleteBugQuery(bug_id);  
                 return NextResponse.json("Bug successfully deleted", { status: 200 })
 

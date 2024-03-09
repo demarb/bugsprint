@@ -34,7 +34,7 @@ const ExistingMembers = ({project_id} : {project_id: string}) => {
             <div>
                 {
                     members.map((member)=>{
-                        return <MemberCard member={member} />
+                        return <MemberCard member={member} project_id={project_id}/>
                     })
                 }
             </div>
