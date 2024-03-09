@@ -63,9 +63,9 @@ const Nav = () => {
               Projects
             </Link>
 
-            <Link href="/notifications" className="green_btn">
+            {/* <Link href="/notifications" className="green_btn">
             {`Notifications (${0})`}
-            </Link>
+            </Link> */}
 
             {/* <Link href="/chat" className="green_btn">
             {`Chat (${0})`}
@@ -98,8 +98,16 @@ const Nav = () => {
                   type="button"
                   key={provider.name}
                   onClick={()=> signIn(provider.id)}
-                  className="green_btn"
+                  className="green_btn flex items-center"
                 >
+
+                <Image src={"/assets/icons/google-48.png"}
+                  alt="Profile"
+                  width={25}
+                  height={25}
+                  className="mr-2" 
+                />
+
                   Sign In
                 </button>
               ))
@@ -141,13 +149,13 @@ const Nav = () => {
                   Projects
                 </Link>
 
-                <Link
+                {/* <Link
                   href="/notifications"
                   className="dropdown_link"
                   onClick={()=>setToggleDropdown(false)}
                 >
                   {`Notifications (${0})`}
-                </Link>
+                </Link> */}
                 
                 {/* <Link
                   href="/chat"
@@ -177,8 +185,16 @@ const Nav = () => {
                   type="button"
                   key={provider.name}
                   onClick={()=> signIn(provider.id)}
-                  className="inverted_green_btn"
+                  className="green_btn flex items-center"
                 >
+
+                <Image src={"/assets/icons/google-48.png"}
+                  alt="Profile"
+                  width={25}
+                  height={25}
+                  className="mr-2" 
+                />
+
                   Sign In
                 </button>
               ))
