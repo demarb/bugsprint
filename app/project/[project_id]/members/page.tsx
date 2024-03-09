@@ -181,7 +181,7 @@ const ProjectMembersPage = ({ params }: { params: { "project_id": string } }) =>
 
                         joinRequests.map((joinrequest)=>{
                           return (
-                            <PendingRequestTile joinrequest={joinrequest} project_id={params.project_id} setJoinRequests={setJoinRequests}/>
+                            <PendingRequestTile key={joinrequest.joinrequest_id} joinrequest={joinrequest} project_id={params.project_id} setJoinRequests={setJoinRequests}/>
                           )
                         })
 
